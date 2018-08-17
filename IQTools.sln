@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQToolsApp", "IQToolsApp\IQToolsApp.csproj", "{C04C794B-4A99-475B-AB61-688C9C5E4320}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{40F8C195-19F4-40CD-8A22-E8EA879144E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{D78A52A5-1CA6-4753-AFEE-1B895D21F881}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDlls", "ExternalDlls", "{3DDE46AE-5207-40A4-9EDF-D143930B95F8}"
+	ProjectSection(SolutionItems) = preProject
+		ExternalDlls\ActiveDatabaseSoftware.ActiveQueryBuilder.dll = ExternalDlls\ActiveDatabaseSoftware.ActiveQueryBuilder.dll
+		ExternalDlls\ActiveDatabaseSoftware.EventMetadataProvider.dll = ExternalDlls\ActiveDatabaseSoftware.EventMetadataProvider.dll
+		ExternalDlls\ActiveDatabaseSoftware.ExpressionEditor.dll = ExternalDlls\ActiveDatabaseSoftware.ExpressionEditor.dll
+		ExternalDlls\ActiveDatabaseSoftware.MSSQLMetadataProvider.dll = ExternalDlls\ActiveDatabaseSoftware.MSSQLMetadataProvider.dll
+		ExternalDlls\EPPlus.dll = ExternalDlls\EPPlus.dll
+		ExternalDlls\GSMCommServer.dll = ExternalDlls\GSMCommServer.dll
+		ExternalDlls\GSMCommShared.dll = ExternalDlls\GSMCommShared.dll
+		ExternalDlls\GSMCommunication.dll = ExternalDlls\GSMCommunication.dll
+		ExternalDlls\PDUConverter.dll = ExternalDlls\PDUConverter.dll
+		ExternalDlls\RS232.dll = ExternalDlls\RS232.dll
+		ExternalDlls\Sand.Security.Cryptography.dll = ExternalDlls\Sand.Security.Cryptography.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQToolsWindowsService", "IQToolsWindowsService\IQToolsWindowsService.csproj", "{762E78E1-FEED-4F4C-8E6C-BF5A09950180}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EDB6F831-03C5-4295-85D8-C44F784B59B3}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "IQToolsSetup", "IQToolsSetup\IQToolsSetup.vdproj", "{514785E6-4036-4123-A904-B69F0BDF9A72}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C04C794B-4A99-475B-AB61-688C9C5E4320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04C794B-4A99-475B-AB61-688C9C5E4320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04C794B-4A99-475B-AB61-688C9C5E4320}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C04C794B-4A99-475B-AB61-688C9C5E4320}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C04C794B-4A99-475B-AB61-688C9C5E4320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04C794B-4A99-475B-AB61-688C9C5E4320}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04C794B-4A99-475B-AB61-688C9C5E4320}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C04C794B-4A99-475B-AB61-688C9C5E4320}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{40F8C195-19F4-40CD-8A22-E8EA879144E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40F8C195-19F4-40CD-8A22-E8EA879144E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40F8C195-19F4-40CD-8A22-E8EA879144E2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{40F8C195-19F4-40CD-8A22-E8EA879144E2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{40F8C195-19F4-40CD-8A22-E8EA879144E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40F8C195-19F4-40CD-8A22-E8EA879144E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40F8C195-19F4-40CD-8A22-E8EA879144E2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{40F8C195-19F4-40CD-8A22-E8EA879144E2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D78A52A5-1CA6-4753-AFEE-1B895D21F881}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D78A52A5-1CA6-4753-AFEE-1B895D21F881}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D78A52A5-1CA6-4753-AFEE-1B895D21F881}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D78A52A5-1CA6-4753-AFEE-1B895D21F881}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D78A52A5-1CA6-4753-AFEE-1B895D21F881}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D78A52A5-1CA6-4753-AFEE-1B895D21F881}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D78A52A5-1CA6-4753-AFEE-1B895D21F881}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D78A52A5-1CA6-4753-AFEE-1B895D21F881}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{762E78E1-FEED-4F4C-8E6C-BF5A09950180}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{762E78E1-FEED-4F4C-8E6C-BF5A09950180}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{762E78E1-FEED-4F4C-8E6C-BF5A09950180}.Release|Any CPU.ActiveCfg = Release|x86
+		{762E78E1-FEED-4F4C-8E6C-BF5A09950180}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{514785E6-4036-4123-A904-B69F0BDF9A72}.Debug|Any CPU.ActiveCfg = Debug
+		{514785E6-4036-4123-A904-B69F0BDF9A72}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{514785E6-4036-4123-A904-B69F0BDF9A72}.Release|Any CPU.ActiveCfg = Release
+		{514785E6-4036-4123-A904-B69F0BDF9A72}.Release|Mixed Platforms.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0DDAA4FC-F445-4959-B8E8-7FBDC18BD754}
+	EndGlobalSection
+EndGlobal

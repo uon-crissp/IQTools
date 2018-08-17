@@ -1,0 +1,517 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+   <title>tmp_ClinicalEncounters</title>
+   <meta name="generator" content="Help &amp; Manual" />
+   <meta name="keywords" content="" />
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <link type="text/css" href="default.css" rel="stylesheet" />
+   <style type="text/css">
+     body { margin: 0px; background: #FFFFFF; }
+   </style>
+   <script type="text/javascript" src="jquery.js"></script>
+   <script type="text/javascript" src="helpman_settings.js"></script>
+   <script type="text/javascript" src="helpman_topicinit.js"></script>
+
+   <script type="text/javascript">
+     HMSyncTOC("index.html", "tmp_clinicalencounters.htm");
+   </script>
+   <script type="text/javascript" src="highlight.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){highlight();});
+   </script>
+</head>
+<body>
+
+
+<table style="width:100%; border:none; border-spacing:0px; padding:5px; background:#C0C0C0">
+  <tr style="vertical-align:middle">
+    <td style="text-align:left">
+      <h1 class="p_Heading1"><span class="f_Heading1">tmp_ClinicalEncounters</span></h1>
+
+    </td>
+    <td style="text-align:right">
+     <a href="query_guide.htm">Top</a>&nbsp;
+     <a href="tmp_artpatients.htm">Previous</a>&nbsp;
+     <a href="tmp_ois.htm">Next</a>
+    </td>
+  </tr>
+</table>
+
+
+<!-- Placeholder for topic body. -->
+<table style="width:100%;border:none;border-spacing:0px"><tr style="vertical-align:top"><td style="text-align:left;padding:5px">
+<p style="line-height: 1.70; margin: 0px 0px 11px 0px;"><span style="font-size: 11pt; font-family: Calibri;">Patient data collected at routine follow ups such as vitals, opportunistic infections, WHO and WAB staging etc. is available in the tmp_ClinicalEncounters table.  </span></p>
+<p style="line-height: 1.70; margin: 0px 0px 11px 0px;"><span style="font-size: 11pt; font-family: Calibri;">This table serves as a source for the following views </span></p>
+<p style="text-align: left; padding: 0px 0px 0px 24px; margin: 0px 0px 11px 24px;"><span style="font-size:11pt; font-family: 'Calibri';color:#000000;display:inline-block;width:24px;margin-left:-24px">1.</span><span style="font-size: 11pt; font-family: Calibri;">IQC_eWAB and IQC_eWHO – Enrollment WAB and WHO stages for all patients</span></p><p style="text-align: left; padding: 0px 0px 0px 24px; margin: 0px 0px 11px 24px;"><span style="font-size:11pt; font-family: 'Calibri';color:#000000;display:inline-block;width:24px;margin-left:-24px">2.</span><span style="font-size: 11pt; font-family: Calibri;">IQC_bWAB and IQC_bWHO – Baseline WAB and WHO stages for all patients</span></p><p style="text-align: left; padding: 0px 0px 0px 24px; margin: 0px 0px 11px 24px;"><span style="font-size:11pt; font-family: 'Calibri';color:#000000;display:inline-block;width:24px;margin-left:-24px">3.</span><span style="font-size: 11pt; font-family: Calibri;">IQC_lastWAB and IQC_lastWHO – Last recorded WAB and WHO staging for all patients </span></p><div style="text-align: left; text-indent: 0px; padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;"><table style="width:618px; border:none; border-spacing:0px; border-collapse:collapse;">
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:middle; width:30px; height:20px; background-color:#5b9bd5; padding:4px; border:solid 1px #000000;"><p style="text-align: center;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold; color: #ffffff;">#</span></p>
+</td>
+<td style="vertical-align:middle; width:154px; height:20px; background-color:#5b9bd5; padding:4px; border:solid 1px #000000;"><p style="text-align: center;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold; color: #ffffff;">Name</span></p>
+</td>
+<td style="vertical-align:middle; width:49px; height:20px; background-color:#5b9bd5; padding:4px; border:solid 1px #000000;"><p style="text-align: center;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold; color: #ffffff;">Type</span></p>
+</td>
+<td style="vertical-align:middle; width:172px; height:20px; background-color:#5b9bd5; padding:4px; border:solid 1px #000000;"><p style="text-align: center;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold; color: #ffffff;">Description</span></p>
+</td>
+<td style="vertical-align:middle; width:135px; height:20px; background-color:#5b9bd5; padding:4px; border:solid 1px #000000;"><p style="text-align: center;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold; color: #ffffff;">Options</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:22px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">1</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:22px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">PatientPK</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:22px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Integer</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:22px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">System assigned unique key</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:22px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">0,1,2,3,4,5,6,7</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:23px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">2</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:23px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">FacilityID</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:23px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Integer</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:23px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">System assigned facility ID</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:23px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">3</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">VisitID</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Integer </span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">System assigned unique visit ID</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';"> </span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">4</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">VisitDate</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date of the visit</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">5</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Service</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Type of service patient is accessing on this visit</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">TB, ART, PMTCT, VCT</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">6</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">VisitType</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Type of Visit</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Initial Evaluation, ART Follow up</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">7</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">WHOStage</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Integer</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">1,2,3,4</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">8</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">WABStage</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">W,A,B</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">9</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Pregnant</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">OI reported at this visit</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Yes/No</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">10</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">LMP</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Last menstrual period date</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">11</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">EDD</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Estimated date of delivery</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">12</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Height</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Decimal</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Height at this visit(cm)</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">160.5cm</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">13</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Weight</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Decimal</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Weight at this visit(kg)</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">75.6</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">14</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">BP</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Blood pressure at this visit</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">120/80</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">15</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Symptom</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Symptoms observed by clinician at the visit</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">16</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">SymptomCategory</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Category of reported symptom</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">ARV Side Effect.</span></p>
+<p><span style="font-size: 11pt; font-family: 'Calibri Light';">TB Screening</span></p>
+<p><span style="font-size: 11pt; font-family: 'Calibri Light';">IPT Workup</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">17</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">OI</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Opportunistic Infection</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:16px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">18</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">OIDate</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+<td style="vertical-align:bottom; width:135px; height:16px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">19</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">ClinicalAssessment</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Clinical Assessment at this visit</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Start ART, Stop ART, Continue current treatment etc.</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">20</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">TherapyChangeReason</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Reason patient is stopping or changing treatment</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Toxicity, Stock Out etc.</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">21</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Comments</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Free text comments entered by clinician during the visit</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">22</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">CommentsCategory</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">If a category for captured comments exists, it is indicated here.</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">23</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Adherence</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Adherence on drugs</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Good, Fair, Poor</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">24</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">AdherenceCategory</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Category of drugs for which adherence is being measured</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">ARVs, CTX</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">25</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">FamilyPlanningMethod</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Family Planning method patient is currently on</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Condoms, ECP, OC, INJ, IMP</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">26</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">PwP</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Prevention with Positivies Indicatots collected at each visit</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Disclosure</span></p>
+<p><span style="font-size: 11pt; font-family: 'Calibri Light';">Partner Testing</span></p>
+<p><span style="font-size: 11pt; font-family: 'Calibri Light';">Screening for STIs</span></p>
+<p><span style="font-size: 11pt; font-family: 'Calibri Light';">…</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: center;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;"> &nbsp; 27</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">FeedingOption</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">For mothers in PMTCT</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">EBR</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">28</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Immunization</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">For infants</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">29</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">GestationAge</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000; border-top:none;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">30</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">PMTCTMedication</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-top:none; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">31</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">NextAppointmentDate</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date of next appointment</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">32</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">NextAppointmentReason</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Reason for next appointment</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">33</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">DataManagerName</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Name of the Data Manager</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">34</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">ClinicianName</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Name of Clinician Signing the form</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:20px; padding:4px; border:solid 1px #000000;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">35</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">DataQuality</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Text</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">System value indicating whether the form meets minimum requirements for data quality</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:20px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">1/0</span></p>
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:17px; padding:4px; border:solid 1px #000000;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">36</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:17px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">CreateDate</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:17px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:17px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date data was first entered to system</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:17px; padding:4px; border:solid 1px #000000; border-left:none;"><br />
+</td>
+</tr>
+<tr style="text-align:left;vertical-align:top;">
+<td style="vertical-align:bottom; width:30px; height:17px; padding:4px; border:solid 1px #000000;"><p style="text-align: right;"><span style="font-size: 11pt; font-family: 'Calibri Light'; font-weight: bold;">37</span></p>
+</td>
+<td style="vertical-align:bottom; width:154px; height:17px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">UpdateDate</span></p>
+</td>
+<td style="vertical-align:bottom; width:49px; height:17px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Date</span></p>
+</td>
+<td style="vertical-align:bottom; width:172px; height:17px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="font-size: 11pt; font-family: 'Calibri Light';">Last data update date</span></p>
+</td>
+<td style="vertical-align:bottom; width:135px; height:17px; padding:4px; border:solid 1px #000000; border-left:none;"><p><span style="color: #000000;">&nbsp;</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</td></tr></table>
+
+</body>
+</html>
