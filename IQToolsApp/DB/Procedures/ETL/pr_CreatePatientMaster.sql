@@ -11,34 +11,34 @@ BEGIN
 	
 	CREATE TABLE tmp_PatientMaster
 	(PatientPK INT NOT NULL
-	, PatientID VARCHAR(200) NULL
+	, PatientID VARCHAR(1000) NULL
 	, FacilityID INT NOT NULL
-	, SiteCode VARCHAR(100) NULL
-	, FacilityName VARCHAR(200) NULL
-	, SatelliteName VARCHAR(200) NULL
+	, SiteCode VARCHAR(1000) NULL
+	, FacilityName VARCHAR(1000) NULL
+	, SatelliteName VARCHAR(1000) NULL
 	, Gender VARCHAR(10) NULL
 	, DOB DATE NULL
 	, RegistrationDate DATE NULL
 	, RegistrationAtCCC DATE NULL
 	, RegistrationAtPMTCT DATE NULL
 	, RegistrationAtTBClinic DATE NULL
-	, PatientName VARCHAR(200) NULL
-	, PatientSource VARCHAR(100) NULL
-	, Village VARCHAR(100) NULL
-	, [Address] VARCHAR(100) NULL
-	, PhoneNumber VARCHAR(100) NULL
-	, ContactName VARCHAR(100) NULL
-	, ContactRelation VARCHAR(100) NULL
-	, ContactPhoneNumber VARCHAR(100) NULL
-	, ContactAddress VARCHAR(100) NULL
+	, PatientName VARCHAR(1000) NULL
+	, PatientSource VARCHAR(1000) NULL
+	, Village VARCHAR(1000) NULL
+	, [Address] VARCHAR(1000) NULL
+	, PhoneNumber VARCHAR(1000) NULL
+	, ContactName VARCHAR(1000) NULL
+	, ContactRelation VARCHAR(1000) NULL
+	, ContactPhoneNumber VARCHAR(1000) NULL
+	, ContactAddress VARCHAR(1000) NULL
 	, LastVisit DATE NULL
 	, AgeCurrent DECIMAL(18,1) NULL
 	, AgeEnrollment DECIMAL(18,1) NULL
 	, AgeLastVisit DECIMAL(18,1) NULL
-	, MaritalStatus VARCHAR(100) NULL
-	, EducationLevel VARCHAR(100) NULL
+	, MaritalStatus VARCHAR(1000) NULL
+	, EducationLevel VARCHAR(1000) NULL
 	, HIVTestDate DATE NULL
-	, PreviousARTExposure VARCHAR(100) NULL
+	, PreviousARTExposure VARCHAR(1000) NULL
 	, PreviousARTStartDate DATE NULL
 	, SMSConsented VARCHAR(10) NULL);
 
@@ -59,7 +59,7 @@ BEGIN
 	IF EXISTS(Select Name FROM sys.tables WHERE Name = N'tempIE')
 	DROP TABLE tempIE;
 	Create TABLE tempIE(Ptn_Pk int null, DateConfirmedHIVPositive datetime Null
-							, StartARTDate datetime null, StartRegimen varchar(100) null);
+							, StartARTDate datetime null, StartRegimen VARCHAR(1000) null);
 
 	IF EXISTS(Select Name FROM sys.synonyms Where Name = N'DTL_FBCUSTOMFIELD_01_Initial_Evaluation_Form')
 	BEGIN
@@ -130,7 +130,7 @@ BEGIN
 	
 	EXEC('
 	   Declare @allIDs as varchar(max)
-		Select @allIDs = stuff((select '',Case When Cast(m.['' + cast(fieldName as varchar(100))+ ''] as varchar(50)) = '''''''' Then Null Else  Cast(m.['' + cast(fieldName as varchar(100))+ ''] as varchar(50)) End ''  
+		Select @allIDs = stuff((select '',Case When Cast(m.['' + cast(fieldName as VARCHAR(1000))+ ''] as varchar(50)) = '''''''' Then Null Else  Cast(m.['' + cast(fieldName as VARCHAR(1000))+ ''] as varchar(50)) End ''  
 		from mst_patientidentifier for xml PATH('''')),1,1,'''')
 		
 		EXEC(''INSERT INTO tmp_PatientMaster select DISTINCT 
@@ -248,7 +248,7 @@ BEGIN
 					Group By a.Ptn_pk) regCCC on d.ptn_pk = regCCC.ptn_pk
 
 		Left Join (Select a.Ptn_pk
-		, Coalesce(Min(Case When b.ModuleName = ''''PACTMother'''' Then a.StartDate Else Null End) 
+		, Coalesce(Min(Case When b.ModuleName = ''''ANC and PMTCT Services'''' Then a.StartDate Else Null End) 
 		, Min(Case When b.ModuleName = ''''PACTInfant'''' Then a.StartDate Else Null End)
 		, Min(Case When b.ModuleName = ''''ANC Maternity and Postnatal'''' Then a.StartDate Else Null End)) RegistrationAtPMTCT
 		From Lnk_PatientProgramStart a Inner join mst_module b on a.ModuleId = b.ModuleID

@@ -18,7 +18,7 @@ BEGIN
 		  Cast((DateDiff(day, m.DOB, c.startARTDate) / 365.25) As decimal(5,1))
 		  AgeARTStart,
 		  m.AgeLastVisit,
-		  m.RegistrationAtCCC RegistrationDate,
+		  Coalesce(m.RegistrationAtCCC, m.RegistrationAtPMTCT) RegistrationDate,
 		  m.PatientSource,
 		  m.Gender,
 		  m.PatientName,
@@ -73,7 +73,7 @@ BEGIN
 		  Group By b.PatientPK,
 			a.lastARTDate) d On m.PatientPK = d.PatientPK
 		  Left Join tmp_lastStatus e On m.PatientPK = e.PatientPK
-		Where m.RegistrationAtCCC Is Not Null')
+		Where coalesce(m.RegistrationAtCCC,m.registrationAtPMTCT) Is Not Null and c.startRegimen <> ''NVP''')
 	
 	EXEC('CREATE CLUSTERED INDEX [IDX_PatientPK] ON 
 		[dbo].[tmp_ARTPatients] ([PatientPK] ASC )

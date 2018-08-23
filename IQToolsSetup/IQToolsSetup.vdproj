@@ -7,10 +7,10 @@
 "LanguageId" = "3:0"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:0"
-"SccProjectName" = "8:SAK"
-"SccLocalPath" = "8:SAK"
-"SccAuxPath" = "8:SAK"
-"SccProvider" = "8:SAK"
+"SccProjectName" = "8:"
+"SccLocalPath" = "8:"
+"SccAuxPath" = "8:"
+"SccProvider" = "8:"
     "Hierarchy"
     {
         "Entry"
@@ -76,7 +76,7 @@
         "Entry"
         {
         "MsmKey" = "8:_4515879F5BD79CBC8269B36887017291"
-        "OwnerKey" = "8:_7EA39B23DD305B4BD6E056D6425C6FFB"
+        "OwnerKey" = "8:_BC31D8C45BB024DC5B6E1A55CBA4F75D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,7 +88,7 @@
         "Entry"
         {
         "MsmKey" = "8:_4515879F5BD79CBC8269B36887017291"
-        "OwnerKey" = "8:_BC31D8C45BB024DC5B6E1A55CBA4F75D"
+        "OwnerKey" = "8:_7EA39B23DD305B4BD6E056D6425C6FFB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -184,79 +184,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A5B364F4E22E858EDFCDA6F970AFE9C0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_813E5D00AC4164A12DE10194637C6D64"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_427B49BD78C642C2056D99E5B82C0742"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F494FCCB592FAA1956EFEC81A02A2B04"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_251D3186C77FC5F33D1FCAC79201D219"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4515879F5BD79CBC8269B36887017291"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7EA39B23DD305B4BD6E056D6425C6FFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_393AA53717EBE947680CBF6F6512C638"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BC31D8C45BB024DC5B6E1A55CBA4F75D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1948CB99C146146391F12F9026BC736E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0D63C8A0657B0A43F0E55749CE40B090"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_99E6B6907422E43CA2BEDAFF14FC193D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A2B0B628822390846DF4EA1DF3D2BE00"
+        "OwnerKey" = "8:_DD3C9895B3F5A29D2CCA2A37DE555211"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -268,7 +196,79 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DD3C9895B3F5A29D2CCA2A37DE555211"
+        "OwnerKey" = "8:_A2B0B628822390846DF4EA1DF3D2BE00"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_99E6B6907422E43CA2BEDAFF14FC193D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0D63C8A0657B0A43F0E55749CE40B090"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1948CB99C146146391F12F9026BC736E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BC31D8C45BB024DC5B6E1A55CBA4F75D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_393AA53717EBE947680CBF6F6512C638"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7EA39B23DD305B4BD6E056D6425C6FFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4515879F5BD79CBC8269B36887017291"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_251D3186C77FC5F33D1FCAC79201D219"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F494FCCB592FAA1956EFEC81A02A2B04"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_427B49BD78C642C2056D99E5B82C0742"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_813E5D00AC4164A12DE10194637C6D64"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A5B364F4E22E858EDFCDA6F970AFE9C0"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -1449,7 +1449,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D80E96B0BD8243989B3122A824DFBCA6"
             {
-            "SourcePath" = "8:..\\IQToolsApp\\obj\\Release\\IQTools.exe"
+            "SourcePath" = "8:..\\IQToolsApp\\obj\\Debug\\IQTools.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5DACB67EB8334DC0B3C22D1498C62E27"
