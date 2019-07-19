@@ -37,10 +37,8 @@ namespace IQTools
                     clsGbl.SettingsValid = true;
                     lblLoad.Text = "Ready";
                     picLoad.Image = Properties.Resources.right;
-                    LoadPic();
                     activateRefresh();
                     activateSatelliteCombo();
-                    //CheckVersions();
                 }
             }
             else
@@ -48,9 +46,7 @@ namespace IQTools
                 clsGbl.SettingsValid = false;
                 lblLoad.Text = "Invalid Settings";
                 picLoad.Image = Properties.Resources.wrong;
-            }
-
-           
+            }  
         }
 
         public frmLogin()
@@ -101,21 +97,6 @@ namespace IQTools
             InitializeForm();
         }
 
-        private void LoadPic()
-        {
-            //Entity en = new Entity();
-            //ClsUtility.Init_Hashtable();
-            //if (Entity.GetServerType() == "mysql")
-            //{
-            //    DataRow dr = (DataRow)en.ReturnObject(Entity.GetConnString(), ClsUtility.theParams
-            //        , "SELECT PMMS From aa_Database LIMIT 1", ClsUtility.ObjectEnum.DataRow, "mysql");
-            //    if (dr[0].ToString().ToLower() == "isante")
-            //    {
-            //        picLogo.Image = Properties.Resources.isante_ht1;
-            //    }
-            //}
-        }
-
         private void activateRefresh()
         {
             if (serverType == "pgsql")
@@ -136,9 +117,10 @@ namespace IQTools
             {
                 if (emr.ToLower() == "iqcare")
                 {
-                    DataRow dr = (DataRow)en.ReturnObject(Entity.GetConnString(), ClsUtility.theParams
-                        , "Select ConnString,DBase,DBName From aa_Database", ClsUtility.ObjectEnum.DataRow, serverType);
-                    emrConnString = ClsUtility.Decrypt(dr["ConnString"].ToString());
+                    DataRow dr;
+
+                    emrConnString = Entity.GetEMRConnString();
+
                     string sPassword = ClsUtility.Encrypt(password);
                     string sSQL = "SELECT top 1 a.userID, a.UserName, a.Password, a.UserFirstName, a.UserLastName, c.GroupName, f.FacilityID, f.SatelliteID MFLCode FROM " +
                                 "(Select FacilityID, SatelliteID FROM mst_Facility WHERE FacilityName = '" + facilityName + "') f, " +
@@ -182,58 +164,7 @@ namespace IQTools
                         return false;
                     }
                 }
-                else if (emr.ToLower() == "cpad")
-                {
-                    DataRow dr = null;
-                    string sPassword = ClsUtility.Encrypt(password);
-                    string sSQL = "SELECT a.userID, a.UserName, a.Password, a.firstname, a.lastname, b.facilityname, a.salt FROM cpad.mst_user a" +
-                        ",(select a.facilityname from cpad.mst_facility a where configured = true limit 1)b " +
-                            "WHERE a.DeleteFlag = false AND a.username = '" + userName + "' limit 1";
-                    try
-                    {
-                        dr = (DataRow)en.ReturnObject(Entity.getconnString(clsGbl.xmlPath), ClsUtility.theParams
-                            , sSQL, ClsUtility.ObjectEnum.DataRow, serverType);
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ex.Message.Contains("There is no row at position 0"))
-                        {
-                            MessageBox.Show(Assets.Messages.InvalidUser, Assets.Messages.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return false;
-                        }
-                        else
-                        {
-                            MessageBox.Show(ex.Message, Assets.Messages.ErrorHeader);
-                            return false;
-                        }
-                    }
-                    if (dr.Table.Rows.Count >= 1)
-                    {
-                        string salt = dr["salt"].ToString();
-                        string p = password + salt;
-                        string s = ClsUtility.GetSHA1Hash(p);
-                        if (s == dr["password"].ToString())
-                        {
-                            clsGbl.loggedInUser.UserID = Convert.ToInt16(dr["userID"]);
-                            clsGbl.loggedInUser.UserName = dr["UserName"].ToString();
-                            clsGbl.loggedInUser.Password = dr["Password"].ToString();
-                            clsGbl.loggedInUser.FirstName = dr["FirstName"].ToString();
-                            clsGbl.loggedInUser.LastName = dr["LastName"].ToString();
-                            clsGbl.loggedInUser.FacilityName = dr["facilityname"].ToString();
-                            return true;
-                        }
-                        else
-                        {
-                            MessageBox.Show(Assets.Messages.InvalidUser, Assets.Messages.ErrorHeader, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show(Assets.Messages.InvalidUser, Assets.Messages.ErrorHeader);
-                        return false;
-                    }
-                }
+
                 else return true;
             }
             catch (Exception ex)
@@ -253,9 +184,7 @@ namespace IQTools
                 string sql = "Select FacilityName, FacilityID FROM mst_Facility WHERE DeleteFlag = 0";
                 Entity en = new Entity();
 
-                DataRow dr = (DataRow)en.ReturnObject(Entity.GetConnString(), ClsUtility.theParams
-                        , "Select ConnString,DBase,DBName From aa_Database", ClsUtility.ObjectEnum.DataRow, serverType);
-                string emrConnString = ClsUtility.Decrypt(dr["ConnString"].ToString());
+                string emrConnString = Entity.GetEMRConnString();
 
                 DataTable dt = (DataTable)en.ReturnObject(emrConnString, ClsUtility.theParams
                     , sql, ClsUtility.ObjectEnum.DataTable, serverType);
@@ -265,22 +194,8 @@ namespace IQTools
                 {
                     cboFacility.Items.Add(dtr[0].ToString());
                 }
-            }
-            else if (emrType == "cpad")
-            {
-                lblFacility.Visible = true;
-                cboFacility.Visible = true;
 
-                string sql = "Select facilityname, facilityid FROM cpad.mst_facility WHERE configured = true";
-                Entity en = new Entity();
-                DataTable dt = (DataTable)en.ReturnObject(Entity.GetConnString(), ClsUtility.theParams
-                    , sql, ClsUtility.ObjectEnum.DataTable, serverType);
-                DataTableReader dtr = dt.CreateDataReader();
-                cboFacility.Items.Clear();
-                while (dtr.Read())
-                {
-                    cboFacility.Items.Add(dtr[0].ToString());
-                }
+                cboFacility.SelectedIndex = 0;
             }
         }
 
@@ -294,7 +209,6 @@ namespace IQTools
                 refresh = true;
                 SetControlPropertyThreadSafe(lblLoad, "Text", "Updating IQTools DB, Please Wait...");
 
-                //UnzipFile("DB\\IQCare\\TableData.zip");
                 Entity.ForceUpgrade();
             }
 
@@ -311,9 +225,6 @@ namespace IQTools
                     {
                         if (refresh)
                         {
-                            //If IQTools Updated
-                            //Entity.CreateIQToolsDB("microsoft sql server", serverUserName, server, serverPassword, iqtoolsDB, "iqcare")
-                            //
                             Entity.DropIQToolsObjects(emrType, serverType);
                             Entity.CreateIQToolsObjects(emrType, serverType);
                             if (Entity.DecryptMstPatient())
@@ -321,26 +232,14 @@ namespace IQTools
                                 ClsUtility.Init_Hashtable();
                                 try
                                 {
-                                    //DataRow fDr = null;
+                                    try
                                     {
-                                        //fDr = (DataRow)en.ReturnObject(connectionString, ClsUtility.theParams
-                                        //      , "SELECT TOP 1 FacilityName FROM mst_Facility WHERE DeleteFlag = 0"
-                                        //      , ClsUtility.ObjectEnum.DataRow, "mssql");
-                                        //ClsUtility.AddParameters("@FacilityName", SqlDbType.Text, fDr[0].ToString());
-                                        //ClsUtility.AddParameters("@EMR", SqlDbType.Text, "iqcare");
-                                        //ClsUtility.AddParameters("@EMRVersion", SqlDbType.Text, clsGbl.EmrVersion);
-                                        //ClsUtility.AddParameters("@VisitPK", SqlDbType.Int, 0);
-                                        //ClsUtility.AddParameters("@PatientPK", SqlDbType.Int, 0);
-
-                                        try
-                                        {
-                                            i = (int)en.ReturnObject(connectionString, ClsUtility.theParams
-                                                                                , "pr_RefreshIQTools"
-                                                                                , ClsUtility.ObjectEnum.ExecuteNonQuery, "mssql");
-                                        }
-                                        catch (Exception ex) { MessageBox.Show(ex.Message); }
-                                        ClsUtility.Init_Hashtable();
+                                        i = (int)en.ReturnObject(connectionString, ClsUtility.theParams
+                                                                            , "pr_RefreshIQTools"
+                                                                            , ClsUtility.ObjectEnum.ExecuteNonQuery, "mssql");
                                     }
+                                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                                    ClsUtility.Init_Hashtable();
                                 }
                                 catch (Exception ex)
                                 {
@@ -476,22 +375,12 @@ namespace IQTools
             }
             else
             {
-                //if (cboSQLServer.InvokeRequired)
-                //{
-                //    cboSQLServer.Invoke(new MethodInvoker(delegate
-                //    {
-                //        cboSQLServer.Items.Add(".");
-                //    }));
-                //}
-                //else
-                //{
-                //    cboSQLServer.Items.Add(".");
-                //}
+
                 MessageBox.Show("No Named SQL Server Instances Were Found. Please check that the SQL Server Browser Service is running. " +
                     " You may still be able to connect by manually typing the Instance Name into the SQL Server Drop Down Box."
                     ,"IQTools | Server Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
             }
+
             SetControlPropertyThreadSafe(lblSaveProgress, "Text", "Done");
             SetControlPropertyThreadSafe(cboSQLServer, "Enabled", true);
             SetControlPropertyThreadSafe(picSettingsProgress, "Image", Properties.Resources.right);
@@ -615,36 +504,6 @@ namespace IQTools
             }
         }
 
-        private void cboIQToolsDatabase_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            //try
-            //{
-            //    string connString = string.Empty;
-            //    if (cboSQLServer.Text.Trim() != string.Empty && txtServerUserName.Text.Trim() != string.Empty
-            //        && txtServerPassword.Text != string.Empty && cboIQToolsDatabase.Text.Trim() != string.Empty)
-            //    {
-            //        connString =
-            //            CreateConnectionString(cboSQLServer.Text.Trim(), txtServerUserName.Text.Trim(), txtServerPassword.Text
-            //            , cboIQToolsDatabase.Text.Trim());
-            //        string IQToolsVersion = GetIQToolsVersion(connString);
-            //        if (IQToolsVersion != string.Empty)
-            //        {
-            //            picIQToolsDB.Image = Properties.Resources.right;
-            //            lblIQToolsVersion.Text = IQToolsVersion;
-            //        }
-            //        else
-            //        {
-            //            //Check if DB Name does not exist
-            //            picIQToolsDB.Image = Properties.Resources.wrong;
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-        }
-
         private string GetIQToolsVersion(string connString)
         {
             string IQToolsVersion = string.Empty;
@@ -666,8 +525,6 @@ namespace IQTools
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //TODO
-            //ValidateParameters
             bool updateDB = chkUpdateIQTools.Checked;
             string server = cboSQLServer.Text.Trim();
             string serverUserName = txtServerUserName.Text.Trim();
@@ -693,26 +550,6 @@ namespace IQTools
             saveSettingsT.SetApartmentState(ApartmentState.STA);
             saveSettingsT.Start();
         }
-
-        //private bool UnzipFile(string zipFilePath)
-        //{
-        //    try
-        //    {
-        //        using (ZipFile zip1 = ZipFile.Read(zipFilePath))
-        //        {
-        //            foreach (ZipEntry e in zip1)
-        //            {
-        //                e.Extract("DB\\IQCare\\", ExtractExistingFileAction.OverwriteSilently);
-        //            }
-        //            return true;
-        //        }
-        //    }
-        //    catch (Exception ex) {
-        //        MessageBox.Show(ex.Message);
-        //        return false;
-        //    }
-            
-        //}
 
         private void CheckVersions()
         {
@@ -753,31 +590,29 @@ namespace IQTools
             else return false;
         }
 
-        private void SaveSettings(bool updateDB, string server, string serverIP, string serverUserName
-            , string serverPassword, string iqcareDB, string iqtoolsDB)
+        private void SaveSettings(bool updateDB, string server, string serverIP, string serverUserName, string serverPassword, string iqcareDB, string iqtoolsDB)
         {
             SetControlPropertyThreadSafe(picSettingsProgress, "Image", Properties.Resources.progress4);
             SetControlPropertyThreadSafe(lblSaveProgress, "Text", "Saving...");
             SetControlPropertyThreadSafe(btnSave, "Enabled", false);
             string iqtoolsConnectionString = CreateConnectionString(server, serverUserName, serverPassword, iqtoolsDB);
             string iqcareConnectionString = CreateConnectionString(server, serverUserName, serverPassword, iqcareDB);
+
             if (updateDB)
             {
-                //UnzipFile("DB\\IQCare\\TableData.zip");
-                    if (Entity.CreateIQToolsDB("microsoft sql server", serverUserName, server, serverPassword, iqtoolsDB, "iqcare"))
-                    {
-                        Entity.SetConnString(iqtoolsConnectionString);
-                        Entity.SetServerType("mssql");
-                        Entity.SetEMRConnString(iqtoolsConnectionString, iqcareConnectionString, serverIP, iqcareDB, "iqcare", "mssql"
-                            , GetIQCareVersion(iqcareConnectionString));
-                    }
-                    else
-                    {
-                        SetControlPropertyThreadSafe(picSettingsProgress, "Image", null);
-                        SetControlPropertyThreadSafe(lblSaveProgress, "Text", "Error Updating the IQTools DB");
-                        SetControlPropertyThreadSafe(btnSave, "Enabled", true);
-                        return;
-                    }
+                if (Entity.CreateIQToolsDB("microsoft sql server", serverUserName, server, serverPassword, iqtoolsDB, "iqcare"))
+                {
+                    Entity.SetConnString(iqtoolsConnectionString);
+                    Entity.SetServerType("mssql");
+                    Entity.SetEMRConnString(iqtoolsConnectionString, iqcareConnectionString, serverIP, iqcareDB, "iqcare", "mssql", GetIQCareVersion(iqcareConnectionString));
+                }
+                else
+                {
+                    SetControlPropertyThreadSafe(picSettingsProgress, "Image", null);
+                    SetControlPropertyThreadSafe(lblSaveProgress, "Text", "Error Updating the IQTools DB");
+                    SetControlPropertyThreadSafe(btnSave, "Enabled", true);
+                    return;
+                }
             }
             else
             {
@@ -785,6 +620,7 @@ namespace IQTools
                 Entity.SetServerType("mssql");
                 Entity.SetEMRConnString(iqtoolsConnectionString, iqcareConnectionString, serverIP, iqcareDB, "iqcare", "mssql", GetIQCareVersion(iqcareConnectionString));
             }
+
             SetControlPropertyThreadSafe(picSettingsProgress, "Image", null);
             SetControlPropertyThreadSafe(lblSaveProgress, "Text", "");
             SetControlPropertyThreadSafe(btnSave, "Enabled", true);

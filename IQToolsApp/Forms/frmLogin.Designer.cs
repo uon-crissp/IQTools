@@ -107,6 +107,7 @@ namespace IQTools
             // cboFacility
             // 
             this.cboFacility.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cboFacility.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFacility.FormattingEnabled = true;
             this.cboFacility.Location = new System.Drawing.Point(87, 141);
             this.cboFacility.Name = "cboFacility";
@@ -469,7 +470,6 @@ namespace IQTools
             this.cboIQToolsDatabase.Name = "cboIQToolsDatabase";
             this.cboIQToolsDatabase.Size = new System.Drawing.Size(189, 21);
             this.cboIQToolsDatabase.TabIndex = 11;
-            this.cboIQToolsDatabase.SelectionChangeCommitted += new System.EventHandler(this.cboIQToolsDatabase_SelectionChangeCommitted);
             // 
             // picSettingsProgress
             // 

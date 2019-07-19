@@ -22,6 +22,7 @@ BEGIN
 		  m.PatientSource,
 		  m.Gender,
 		  m.PatientName,
+		  m.ServiceArea,
 		  Coalesce(m.PreviousARTStartDate, c.startARTDate) StartARTDate,
 		  m.PreviousARTStartDate,
 		  m.PreviousARTExposure PreviousARTRegimen,
@@ -36,9 +37,17 @@ BEGIN
 		  d.Provider,
 		  m.LastVisit LastVisit,
 		  e.CDCExitReason ExitReason,
-		  e.CDCExitDate ExitDate
-  
-		INTO tmp_ARTPatients 
+		  e.CDCExitDate ExitDate,
+		  case when [dbo].[fn_ActiveCCC](getdate(), m.PatientPK)=1 then ''Active''
+			when [dbo].[fn_ActiveCCC](getdate(), m.PatientPK)=0 and e.CDCExitReason is not null then e.CDCExitReason
+			else ''Lost - Not care-ended'' end as CurrentStatus,
+		  case 
+		    when [dbo].[fn_ActiveCCC](getdate(), m.PatientPK)=1 
+				and datediff(dd, expectedreturn, getdate()) > 0 then datediff(dd, expectedreturn, getdate()) 
+			when [dbo].[fn_ActiveCCC](getdate(), m.PatientPK)=0 and e.CDCExitReason is null
+				and datediff(dd, expectedreturn, getdate()) > 0 then datediff(dd, expectedreturn, getdate()) 
+			end as DaysMissed
+		INTO tmp_ARTPatients
   
 		From tmp_PatientMaster m
 		  Inner Join (Select Distinct b.PatientPK,

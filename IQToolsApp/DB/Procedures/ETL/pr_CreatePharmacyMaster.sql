@@ -16,23 +16,20 @@ Begin
 	EXEC('IF EXISTS (Select name FROM sys.tables where name = ''tempLastRegimens'') DROP TABLE tempLastRegimens')
 	EXEC('IF EXISTS (Select name FROM sys.tables where name = ''TempProphylaxis'') DROP TABLE TempProphylaxis') 
 
-
 	EXEC('WITH 
 	ARVs_A AS 
 	(
 	Select DISTINCT a.Ptn_Pk
 	, c.VisitID
 	, c.ptn_pharmacy_pk
-	, g.GenericAbbrevation
-	 FROM mst_Patient a
+	, coalesce(f.RegimenCode +'' - ''+ f.RegimenName, e.DrugAbbreviation) GenericAbbrevation
+		FROM mst_Patient a
 	INNER JOIN ord_Visit b ON a.Ptn_Pk = b.Ptn_Pk
 	INNER JOIN ord_PatientPharmacyOrder c ON a.Ptn_Pk = c.Ptn_pk AND b.Visit_Id = c.VisitID
 	INNER JOIN dtl_PatientPharmacyOrder d ON c.ptn_pharmacy_pk = d.ptn_pharmacy_pk
 	INNER JOIN mst_Drug e ON d.Drug_Pk = e.Drug_pk
-	INNER JOIN lnk_DrugGeneric f ON e.Drug_pk = f.Drug_pk
-	INNER JOIN mst_Generic g ON f.GenericID = g.GenericID
-	INNER JOIN lnk_DrugTypeGeneric h ON g.GenericID = h.GenericId
-	INNER JOIN mst_DrugType i ON h.DrugTypeId = i.DrugTypeID
+	INNER JOIN mst_DrugType i ON e.DrugType = i.DrugTypeID
+	left join mst_Regimen f on c.RegimenId=f.RegimenID
 	Where (a.DeleteFlag = 0 Or a.DeleteFlag IS NULL)
 	AND (b.DeleteFlag = 0 OR b.DeleteFlag IS NULL)
 	AND (c.DeleteFlag = 0 OR c.DeleteFlag IS NULL)
@@ -68,50 +65,62 @@ Begin
 
 	EXEC('UPDATE TempRegimenMap SET regimen = Case WHEN regimen LIKE ''%LOPr%'' THEN REPLACE(regimen,''LOPr'', ''LPV/r'') ELSE regimen END')
 
-	EXEC('with a as (
+	EXEC('if exists(select * from sysobjects where name=''temp_a'' and type=''u'') drop table temp_a
+	if exists(select * from sysobjects where name=''temp_b'' and type=''u'') drop table temp_b
+	if exists(select * from sysobjects where name=''temp_c'' and type=''u'') drop table temp_c
+	if exists(select * from sysobjects where name=''temp_lastregimen'' and type=''u'') drop table temp_lastregimen
+	if exists(select * from sysobjects where name=''temp_lastregimenStart'' and type=''u'') drop table temp_lastregimenStart
+	if exists(select * from sysobjects where name=''temp_lastregimendispensed'' and type=''u'') drop table temp_lastregimendispensed
+	if exists(select * from sysobjects where name=''tempLastRegimens'' and type=''u'') drop table tempLastRegimens
+
 	Select Ptn_pk
 	, ROW_NUMBER() Over (Partition By ptn_pk Order By ptn_pharmacy_Pk desc) i
 	, VisitID
 	, ptn_pharmacy_pk
 	, regimen
 	, len(regimen)reglength
-	FROM TempRegimenMap)
+	into temp_a
+	FROM TempRegimenMap
 
-	, b as
-	(select * from a where i <= 4)
+	select *
+	into temp_b 
+	from temp_a where i <= 4
 
-	, c as (
-			select b.ptn_pk
-			, b.visitid
-			, b.ptn_pharmacy_pk
-			, b.regimen
-			 from b inner join (
-				select ptn_pk			
-				, max(reglength) reglength 
-				from b group by ptn_pk) c on b.ptn_pk = c.ptn_pk
-			and b.reglength = c.reglength)
+	select b.ptn_pk
+	, b.visitid
+	, b.ptn_pharmacy_pk
+	, b.regimen
+	into temp_c
+	from temp_b b inner join (
+	select ptn_pk			
+	, max(reglength) reglength 
+	from temp_b group by ptn_pk) c on b.ptn_pk = c.ptn_pk
+	and b.reglength = c.reglength
 
-	, lastregimen as (
-			select c.ptn_pk
-			, c.visitid, c.ptn_pharmacy_pk, c.regimen from c inner join (
-			Select ptn_pk, max(ptn_pharmacy_pk) lastptn
-			from c group by ptn_pk) d on c.ptn_pk = d.ptn_pk and c.ptn_pharmacy_pk = d.lastptn)
+	select c.ptn_pk
+	, c.visitid, c.ptn_pharmacy_pk, c.regimen 
+	into temp_lastregimen
+	from temp_c c inner join (
+	Select ptn_pk, max(ptn_pharmacy_pk) lastptn
+	from temp_c  group by ptn_pk) d on c.ptn_pk = d.ptn_pk and c.ptn_pharmacy_pk = d.lastptn
 
-	, lastregimenStart as (
-				Select a.ptn_pk, min(a.ptn_pharmacy_pk)lastStart FROM a inner join lastregimen b on a.ptn_pk = b.ptn_pk
-				and a.regimen = b.regimen
-				group by a.ptn_pk)
+	
+	Select a.ptn_pk, min(a.ptn_pharmacy_pk)lastStart 
+	into temp_lastregimenStart
+	FROM temp_a a inner join temp_lastregimen b on a.ptn_pk = b.ptn_pk
+	and a.regimen = b.regimen
+	group by a.ptn_pk
 
-	, lastregimendispensed as 
-				(select a.ptn_pk
-				, a.i
-				, a.regimen lastregimen
-				, a.ptn_pharmacy_pk 
-				, len(a.regimen) reglength
-				from a inner join (select ptn_pk
-									, max(ptn_pharmacy_pk) last_pk
-									from a group by ptn_pk)b 
-				on a.ptn_pk = b.ptn_pk and a.ptn_pharmacy_pk = b.last_pk)
+	select a.ptn_pk
+	, a.i
+	, a.regimen lastregimen
+	, a.ptn_pharmacy_pk 
+	, len(a.regimen) reglength
+	into temp_lastregimendispensed
+	from temp_a a inner join (select ptn_pk
+						, max(ptn_pharmacy_pk) last_pk
+						from temp_a a group by ptn_pk)b 
+	on a.ptn_pk = b.ptn_pk and a.ptn_pharmacy_pk = b.last_pk
 
 	Select a.ptn_pk
 	, a.visitid lastvisitID
@@ -119,10 +128,10 @@ Begin
 	, case when c.reglength between 11 and 13 then c.lastregimen else a.regimen end as lastRegimen
 	, case when c.reglength between 11 and 13 then c.ptn_pharmacy_pk else b.lastStart end as lastRegimenStartPK 
 	into tempLastRegimens
-	 from lastregimen a inner join lastregimenStart b on a.ptn_pk = b.ptn_pk
-	 inner join lastregimendispensed c on a.ptn_pk = c.ptn_pk')
+	from temp_lastregimen a 
+	inner join temp_lastregimenStart b on a.ptn_pk = b.ptn_pk
+	inner join temp_lastregimendispensed c on a.ptn_pk = c.ptn_pk')
 
-	--**Prophylaxis
 	EXEC('WITH Prophlyaxis AS (
 	Select  v.Ptn_pk PatientPK,
 	v.VisitID,
@@ -305,4 +314,4 @@ Begin
 	 ')
 
 END
-GO
+go

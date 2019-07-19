@@ -40,7 +40,8 @@ BEGIN
 	, HIVTestDate DATE NULL
 	, PreviousARTExposure VARCHAR(1000) NULL
 	, PreviousARTStartDate DATE NULL
-	, SMSConsented VARCHAR(10) NULL);
+	, SMSConsented VARCHAR(10) NULL
+	, ServiceArea varchar(100) NULL);
 
 	IF EXISTS(SELECT name FROM sys.tables WHERE name = N'x_SMSConsent')
 	DROP TABLE x_SMSConsent;
@@ -78,8 +79,9 @@ BEGIN
 		GROUP BY Ptn_pk) b ON a.Ptn_pk = b.Ptn_pk AND a.PreviousRegimenDate = b.StartART
 		GROUP BY a.Ptn_pk) 
 
-		, HIVTesting AS (Select Ptn_Pk, HIVTestDate FROM DTL_FBCUSTOMFIELD_01_Initial_Evaluation_Form
-		WHERE HIVTestDate IS NOT NULL AND HIVTestDate <> Cast('''' AS Datetime))
+		, HIVTesting AS (Select Ptn_Pk, max(HIVTestDate) as HIVTestDate FROM DTL_FBCUSTOMFIELD_01_Initial_Evaluation_Form
+		WHERE HIVTestDate IS NOT NULL AND HIVTestDate <> Cast('''' AS Datetime)
+		group by Ptn_Pk)
 	
 		INSERT INTO tempIE 
 		SELECT a.Ptn_pk, b.HIVTestDate, c.StartARTDate, c.StartRegimen 
@@ -91,7 +93,7 @@ BEGIN
 	END
 	
 	EXEC('	
-	WITH HIVTesting AS (Select a.ptn_pk, Min(HIVDate)HIVTestDate From 
+	WITH HIVTesting AS (Select a.ptn_pk, Max(HIVDate)HIVTestDate From 
 			(Select a.ptn_pk, a.ConfirmHIVPosDate HIVDate
 			From dtl_PatientHivPrevCareEnrollment a  
 			Where a.ConfirmHIVPosDate Is Not Null And a.ConfirmHIVPosDate <> Cast('''' as datetime)
@@ -126,6 +128,12 @@ BEGIN
 		LEFT JOIN PreviousART c ON a.Ptn_Pk = c.Ptn_Pk
 		Where COALESCE(b.Ptn_Pk, c.Ptn_Pk) IS NOT NULL
 	GROUP BY a.Ptn_Pk
+	union
+	select distinct a.ptn_pk, null, b.FirstLineRegStDate, d.RegimenCode+'' - ''+d.RegimenName as Regimen
+	from mst_patient a
+	inner join dtl_patientARTCare b on a.ptn_pk=b.ptn_pk and a.TransferIn=1
+	left join mst_Regimen d on b.FirstLineReg=d.RegimenID
+	where len(FirstLineReg)>0 and d.RegimenName is not null
 	')
 	
 	EXEC('
@@ -133,11 +141,9 @@ BEGIN
 		Select @allIDs = stuff((select '',Case When Cast(m.['' + cast(fieldName as VARCHAR(1000))+ ''] as varchar(50)) = '''''''' Then Null Else  Cast(m.['' + cast(fieldName as VARCHAR(1000))+ ''] as varchar(50)) End ''  
 		from mst_patientidentifier for xml PATH('''')),1,1,'''')
 		
-		EXEC(''INSERT INTO tmp_PatientMaster select DISTINCT 
-		d.ptn_pk PatientPK
-		, Case WHEN LEN(d.SatelliteID) <= 3 THEN CAST(d.CountryID+d.PosID AS VARCHAR(10)) ELSE
-		cast(d.SatelliteID as varchar(10)) END		
-		+''''-''''+ Cast(coalesce(''+@allIDs+'') as varchar(50)) PatientID
+		EXEC(''INSERT INTO tmp_PatientMaster 
+		select DISTINCT d.ptn_pk PatientPK
+		, Cast(coalesce(''+@allIDs+'') as varchar(50)) PatientID
 		, d.locationID FacilityID
 		, Case WHEN LEN(d.SatelliteID) <= 3 THEN CAST(d.CountryID+d.PosID AS VARCHAR(10)) ELSE
 		cast(d.SatelliteID as varchar(10)) END AS SiteCode
@@ -150,7 +156,7 @@ BEGIN
 		, regPMTCT.RegistrationAtPMTCT
 		, regTB.RegistrationAtTBClinic
 
-		, m.dFirstName + '''' '''' + m.dLastName PatientName 
+		, m.dFirstName + '''' '''' + m.dMiddleName + '''' '''' + m.dLastName PatientName 
 		, Case When d.TransferIn = 1 OR 
 		(t.ARTTransferInDate > CAST('''''''' as datetime) 
 		AND t.ARTTransferInDate <= regCCC.RegistrationAtCCC) 
@@ -168,10 +174,11 @@ BEGIN
 		, Cast((DateDiff(day, d.DOB, lV.lastVisit) / 365.25) as decimal(5,1))  AgeLastVisit
 			, d4.Name MaritalStatus
 		, d3.Name EducationLevel	
-		, z.DateConfirmedHIVPositive
-		, z.StartRegimen PreviousARTExposure
-		, z.StartARTDate PreviousARTStartDate		
-		, CASE WHEN aa.PatientPK IS NOT NULL THEN ''''YES'''' ELSE NULL END AS SMSConsented		
+		, (select top 1 z.DateConfirmedHIVPositive from tempIE z where z.ptn_pk=d.ptn_pk and z.DateConfirmedHIVPositive is not null) as DateConfirmedHIVPositive
+		, (select top 1 z.StartRegimen from tempIE z where z.ptn_pk=d.ptn_pk and z.StartRegimen is not null) PreviousARTExposure
+		, (select top 1 z.StartARTDate from tempIE z where z.ptn_pk=d.ptn_pk and z.StartARTDate is not null) PreviousARTStartDate		
+		, CASE WHEN aa.PatientPK IS NOT NULL THEN ''''YES'''' ELSE NULL END AS SMSConsented
+		, (select top 1 x.ModuleName from mst_module x where x.moduleid=d.ModuleId) as ServiceArea		
 
 		from (Select b.FacilityName 
 					From mst_patient a inner join mst_facility b on a.LocationID = b.facilityid
@@ -190,11 +197,13 @@ BEGIN
 			, b.posid
 			, b.satelliteid
 			, b.facilityName
-			, c.Name Gender			
+			, c.Name Gender
+			, a.ModuleId		
 			From mst_patient a left join mst_facility b on a.LocationID = b.facilityid
 			left join mst_decode c on a.sex = c.ID 			
 			Left JOIN mst_Village f On a.VillageName = f.ID
-			Where a.DeleteFlag = 0)d inner join mst_patient_decoded m on d.ptn_pk = m.ptn_pk 
+			Where a.DeleteFlag = 0)d 
+		inner join mst_patient_decoded m on d.ptn_pk = m.ptn_pk 
 		left join 
 		(Select 
 		c.ptn_pk
@@ -228,9 +237,9 @@ BEGIN
 
 		Left Join (Select a.Ptn_pk
 					, MAX(e.FacilityName) f
-					, Coalesce(Min(Case When c.ModuleName = ''''HIVCARE-STATICFORM'''' 
+					, Coalesce(Min(Case When c.ModuleName = ''''CCC Patient Card MoH 257'''' 
 					Then COALESCE(b.OldEnrollDate, a.StartDate) Else Null End) 
-					,Min(Case When c.ModuleName = ''''CCC Patient Card MoH 257'''' 
+					,Min(Case When c.ModuleName = ''''ART Clinic'''' 
 					Then COALESCE(b.OldEnrollDate, a.StartDate) Else Null End)
 					,Min(Case When c.ModuleName = ''''Paediatric ART'''' 
 					Then COALESCE(b.OldEnrollDate, a.StartDate) Else Null End)
@@ -264,7 +273,6 @@ BEGIN
 							,''''TB Clinic'''') And b.Status = 2
 		Group By a.Ptn_pk) regTB on d.ptn_pk = regTB.ptn_pk
 	
-		Left Join tempIE z on d.ptn_pk = z.ptn_pk
 		LEFT JOIN x_SMSConsent aa ON d.Ptn_Pk = aa.PatientPK'')')
 
 	Exec('

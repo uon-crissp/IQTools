@@ -59,7 +59,7 @@
   <ItemGroup>
     <Reference Include="GSMCommunication">
       <HintPath>..\ExternalDlls\GSMCommunication.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PDUConverter">
       <HintPath>..\ExternalDlls\PDUConverter.dll</HintPath>

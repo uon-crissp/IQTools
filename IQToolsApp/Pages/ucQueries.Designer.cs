@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucQueries));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tcQueryManager = new System.Windows.Forms.TabControl();
             this.tpQueryDesign = new System.Windows.Forms.TabPage();
             this.spcDesignQuery = new System.Windows.Forms.SplitContainer();
@@ -63,6 +63,7 @@
             this.spcManageQueries = new System.Windows.Forms.SplitContainer();
             this.spcQueryOps = new System.Windows.Forms.SplitContainer();
             this.grbFilters = new System.Windows.Forms.GroupBox();
+            this.chkFilterUserQueries = new System.Windows.Forms.CheckBox();
             this.chkFilterSystem = new System.Windows.Forms.CheckBox();
             this.chkFilterLineLists = new System.Windows.Forms.CheckBox();
             this.chkFilterAggregates = new System.Windows.Forms.CheckBox();
@@ -80,7 +81,6 @@
             this.expressionEditor1 = new ActiveDatabaseSoftware.ExpressionEditor.ExpressionEditor(this.components);
             this.spcMain = new System.Windows.Forms.SplitContainer();
             this.picQueries = new System.Windows.Forms.PictureBox();
-            this.chkFilterUserQueries = new System.Windows.Forms.CheckBox();
             this.tcQueryManager.SuspendLayout();
             this.tpQueryDesign.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spcDesignQuery)).BeginInit();
@@ -289,7 +289,7 @@
             this.spcPreview.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(244)))), ((int)(((byte)(255)))));
             this.spcPreview.Panel2.Controls.Add(this.spcQueryAnalytics);
             this.spcPreview.Size = new System.Drawing.Size(1114, 548);
-            this.spcPreview.SplitterDistance = 862;
+            this.spcPreview.SplitterDistance = 864;
             this.spcPreview.SplitterWidth = 2;
             this.spcPreview.TabIndex = 0;
             // 
@@ -299,14 +299,13 @@
             this.dgvPreview.AllowUserToDeleteRows = false;
             this.dgvPreview.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dgvPreview.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgvPreview.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dgvPreview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPreview.Location = new System.Drawing.Point(0, 0);
             this.dgvPreview.Margin = new System.Windows.Forms.Padding(0);
             this.dgvPreview.Name = "dgvPreview";
             this.dgvPreview.ReadOnly = true;
-            this.dgvPreview.Size = new System.Drawing.Size(860, 546);
+            this.dgvPreview.Size = new System.Drawing.Size(862, 546);
             this.dgvPreview.TabIndex = 0;
             this.dgvPreview.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPreview_CellContentClick);
             this.dgvPreview.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvPreview_DataError);
@@ -327,7 +326,7 @@
             // spcQueryAnalytics.Panel2
             // 
             this.spcQueryAnalytics.Panel2.Controls.Add(this.gpbAnalytics);
-            this.spcQueryAnalytics.Size = new System.Drawing.Size(248, 546);
+            this.spcQueryAnalytics.Size = new System.Drawing.Size(246, 546);
             this.spcQueryAnalytics.SplitterDistance = 229;
             this.spcQueryAnalytics.SplitterWidth = 1;
             this.spcQueryAnalytics.TabIndex = 0;
@@ -349,7 +348,7 @@
             this.gpbEdit.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.gpbEdit.Location = new System.Drawing.Point(0, 0);
             this.gpbEdit.Name = "gpbEdit";
-            this.gpbEdit.Size = new System.Drawing.Size(248, 229);
+            this.gpbEdit.Size = new System.Drawing.Size(246, 229);
             this.gpbEdit.TabIndex = 0;
             this.gpbEdit.TabStop = false;
             this.gpbEdit.Text = "Edits";
@@ -469,7 +468,7 @@
             this.gpbAnalytics.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpbAnalytics.Location = new System.Drawing.Point(0, 0);
             this.gpbAnalytics.Name = "gpbAnalytics";
-            this.gpbAnalytics.Size = new System.Drawing.Size(248, 316);
+            this.gpbAnalytics.Size = new System.Drawing.Size(246, 316);
             this.gpbAnalytics.TabIndex = 0;
             this.gpbAnalytics.TabStop = false;
             this.gpbAnalytics.Text = "Analytics";
@@ -490,7 +489,7 @@
             this.dgvQueryAnalytics.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvQueryAnalytics.RowHeadersWidth = 15;
             this.dgvQueryAnalytics.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dgvQueryAnalytics.Size = new System.Drawing.Size(242, 294);
+            this.dgvQueryAnalytics.Size = new System.Drawing.Size(240, 294);
             this.dgvQueryAnalytics.TabIndex = 0;
             // 
             // dgcDataElement
@@ -502,8 +501,8 @@
             // 
             // dgcAvailability
             // 
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgcAvailability.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgcAvailability.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgcAvailability.HeaderText = "Availability";
             this.dgcAvailability.Name = "dgcAvailability";
             this.dgcAvailability.ReadOnly = true;
@@ -580,6 +579,18 @@
             this.grbFilters.TabIndex = 0;
             this.grbFilters.TabStop = false;
             this.grbFilters.Text = "Find Queries For...";
+            // 
+            // chkFilterUserQueries
+            // 
+            this.chkFilterUserQueries.AutoSize = true;
+            this.chkFilterUserQueries.Checked = true;
+            this.chkFilterUserQueries.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFilterUserQueries.Location = new System.Drawing.Point(6, 126);
+            this.chkFilterUserQueries.Name = "chkFilterUserQueries";
+            this.chkFilterUserQueries.Size = new System.Drawing.Size(86, 19);
+            this.chkFilterUserQueries.TabIndex = 4;
+            this.chkFilterUserQueries.Text = "My Queries";
+            this.chkFilterUserQueries.UseVisualStyleBackColor = true;
             // 
             // chkFilterSystem
             // 
@@ -798,18 +809,6 @@
             this.picQueries.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picQueries.TabIndex = 0;
             this.picQueries.TabStop = false;
-            // 
-            // chkFilterUserQueries
-            // 
-            this.chkFilterUserQueries.AutoSize = true;
-            this.chkFilterUserQueries.Checked = true;
-            this.chkFilterUserQueries.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFilterUserQueries.Location = new System.Drawing.Point(6, 126);
-            this.chkFilterUserQueries.Name = "chkFilterUserQueries";
-            this.chkFilterUserQueries.Size = new System.Drawing.Size(86, 19);
-            this.chkFilterUserQueries.TabIndex = 4;
-            this.chkFilterUserQueries.Text = "My Queries";
-            this.chkFilterUserQueries.UseVisualStyleBackColor = true;
             // 
             // ucQueries
             // 

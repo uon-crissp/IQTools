@@ -39,7 +39,7 @@ BEGIN
 	from dtl_PatientCareEnded e 
 	left join Lnk_PatientProgramStart f on f.ptn_pk = e.ptn_pk
 	inner join mst_Decode g on g.ID = e.PatientExitReason  
-	where f.ModuleID = (select top 1 moduleid from mst_module where ModuleName = ''ANC Maternity and Postnatal'')) f on f.ptn_pk = b.ptn_pk
+	where f.ModuleID = (select top 1 moduleid from mst_module where ModuleName = ''ANC, Maternity and Postnatal Clinic'')) f on f.ptn_pk = b.ptn_pk
 	left join dtl_familyInfo g on g.ptn_pk = b.ptn_pk
 	left join 
 	(Select distinct a.PatientPK

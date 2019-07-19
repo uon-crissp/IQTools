@@ -2,13 +2,9 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections;
-//using MySql.Data.MySqlClient;
 using System.Data.OleDb;
-//using Npgsql;
 using System.Configuration;
 using System.IO;
-using Microsoft.SqlServer.Management.Common;
-//using Microsoft.SqlServer.Management.Smo;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -77,8 +73,21 @@ namespace DataLayer
 
         public static string GetEMRType()
         {
-            //TODO
             return "iqcare";
+        }
+
+        public static string GetEMRDatabaseName(string sConnstring)
+        {
+            try
+            {
+                IDbConnection connection = new SqlConnection(sConnstring);
+                var dbName = connection.Database;
+                return dbName;
+            }
+            catch
+            {
+                return "IQCare";
+            }
         }
 
         public static bool DropIQToolsObjects(string emrType, string serverType)
@@ -153,23 +162,17 @@ namespace DataLayer
         {
             string connString = GetConnString();
             Entity en = new Entity();
-            DataRow dr = (DataRow)en.ReturnObject(connString, ClsUtility.theParams, "SELECT TOP 1 ConnString, DBase FROM aa_Database", ClsUtility.ObjectEnum.DataRow, serverType);
-            string EMRDatabase = dr["DBase"].ToString();
-            string EMRConnString = ClsUtility.Decrypt(dr["ConnString"].ToString());
-            if (emrType.ToLower() == "iqcare")
-            {
-                //TODO
-                //en.CreateFormBuilderViews(dr["ConnString"].ToString());
-            }
+            string EMRConnString = Entity.GetEMRConnString();
+
             try
             {
-                
-                string toCreate = "select '[' + (select top 1 name COLLATE DATABASE_DEFAULT from sys.servers where product = 'SQL Server') + '].[" + EMRDatabase + "].[' + b.name + '].[' + a.name + ']' s, '[' + b.name + '].[' + a.name + ']' o " +
+                string toCreate = "select '[' + (select top 1 name COLLATE DATABASE_DEFAULT from sys.servers where product = 'SQL Server') + '].[" + GetEMRDatabaseName(EMRConnString) + "].[' + b.name + '].[' + a.name + ']' s, '[' + b.name + '].[' + a.name + ']' o " +
                                     " from sys.tables a inner join sys.schemas b on a.schema_id = b.schema_id where a.name not like 'sys%' " +
                                     " union " +
-                                    " select '[' + (select top 1 name COLLATE DATABASE_DEFAULT from sys.servers where product = 'SQL Server') +'].[" + EMRDatabase + "].[' + b.name + '].[' + a.name + ']' s, '[' + b.name + '].[' + a.name + ']' o " +
+                                    " select '[' + (select top 1 name COLLATE DATABASE_DEFAULT from sys.servers where product = 'SQL Server') +'].[" + GetEMRDatabaseName(EMRConnString) + "].[' + b.name + '].[' + a.name + ']' s, '[' + b.name + '].[' + a.name + ']' o " +
                                     " from sys.views a inner " +
                                     " join sys.schemas b on a.schema_id = b.schema_id where a.name not like 'sys%' ";
+
                 DataTable dt = (DataTable)en.ReturnObject(EMRConnString, null, toCreate, ClsUtility.ObjectEnum.DataTable, serverType);
                 DataTableReader dreader = dt.CreateDataReader();
                 while (dreader.Read())
@@ -177,6 +180,7 @@ namespace DataLayer
                     string createSynonym = "CREATE SYNONYM " + dreader["o"].ToString() + "FOR " + dreader["s"].ToString();
                     int i = (int)en.ReturnObject(connString, ClsUtility.theParams, createSynonym, ClsUtility.ObjectEnum.ExecuteNonQuery, serverType);
                 }
+
                 return true;
             }
             catch (Exception ex)
@@ -187,52 +191,56 @@ namespace DataLayer
 
         public static string getconnString(string xmlPath)
         {
-            //XmlDocument theXML = new XmlDocument();
-            //theXML.Load(xmlPath);
-            //XmlNode nd = theXML.SelectSingleNode("//add[@key='IQToolconstr']"); //get the node with an attribute of “key” =  IQToolconstr
-            //if (nd != null)
-            //{
-            //    return ClsUtility.Decrypt(nd.Attributes["value"].Value); //return the value of the value attribute of this node
-            //}
-            //return "";
             return GetConnString();
         }
 
         public static string GetConnString()
         {
-            //var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            //var appSettings = configFile.AppSettings.Settings;
-            //return ClsUtility.Decrypt(appSettings["ConnectionString"].Value);
             string versionDependent = Application.UserAppDataRegistry.Name;
             string versionIndependent = versionDependent.Substring(0, versionDependent.LastIndexOf("\\"));
 
+            string ConnectionString = String.Empty;
+            if (Registry.GetValue(versionIndependent, "ConnectionString", null) != null)
+            {
+                return ClsUtility.Decrypt(Registry.GetValue(versionIndependent, "ConnectionString", null).ToString());
+            }
+            else
+            {
+                return ConnectionString;
+            }
+        }
+
+        public static string GetEMRConnString()
+        {
+            string versionDependent = Application.UserAppDataRegistry.Name;
+            string versionIndependent = versionDependent.Substring(0, versionDependent.LastIndexOf("\\"));
 
             string ConnectionString = String.Empty;
-            //if (Application.UserAppDataRegistry.GetValue("ConnectionString") != null)
-            //return ClsUtility.Decrypt(Application.UserAppDataRegistry.GetValue("ConnectionString").ToString());
-            if (Registry.GetValue(versionIndependent, "ConnectionString", null) != null)
-                return ClsUtility.Decrypt(Registry.GetValue(versionIndependent, "ConnectionString", null).ToString());
-            else return ConnectionString;
+            if (Registry.GetValue(versionIndependent, "EMRConnectionString", null) != null)
+            {
+                return ClsUtility.Decrypt(Registry.GetValue(versionIndependent, "EMRConnectionString", null).ToString());
+            }
+            else
+            {
+                return ConnectionString;
+            }
         }
 
         public static void SetConnString(string ConnectionString)
         {
-            //var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            //var appSettings = configFile.AppSettings.Settings;
-            //appSettings["ConnectionString"].Value = ClsUtility.Encrypt(ConnectionString);
-            //configFile.Save(ConfigurationSaveMode.Modified);
-            //ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
-            //Application.UserAppDataRegistry.SetValue("ConnectionString", ClsUtility.Encrypt(ConnectionString));
-
             string versionDependent = Application.UserAppDataRegistry.Name;
             string versionIndependent = versionDependent.Substring(0, versionDependent.LastIndexOf("\\"));
             Registry.SetValue(versionIndependent, "ConnectionString", ClsUtility.Encrypt(ConnectionString));
         }
 
-        public static void SetEMRConnString(string IQToolsConnectionString, string EMRConnectionString
-            , string IPAddress, string EMRDB, string EMRType, string ServerType, string EMRVersion)
+        public static void SetEMRConnString(string IQToolsConnectionString, string EMRConnectionString, string IPAddress, string EMRDB, string EMRType, string ServerType, string EMRVersion)
         {
-            try {
+            string versionDependent = Application.UserAppDataRegistry.Name;
+            string versionIndependent = versionDependent.Substring(0, versionDependent.LastIndexOf("\\"));
+            Registry.SetValue(versionIndependent, "EMRConnectionString", ClsUtility.Encrypt(EMRConnectionString));
+
+            try
+            {
                 Entity en = new Entity();
                 ClsUtility.Init_Hashtable();
                 string sql = "UPDATE aa_Database SET "
@@ -244,7 +252,7 @@ namespace DataLayer
                 int i = (int)en.ReturnObject(IQToolsConnectionString, ClsUtility.theParams
                                                 , sql
                                                 , ClsUtility.ObjectEnum.ExecuteNonQuery, "mssql");
-                if(i == 0)
+                if (i == 0)
                 {
                     sql = "INSERT INTO aa_Database (DBName, IPAddress,ConnString, DBase, PMMSType, IQStatus, PMMS, EMRVersion, CreateDate) " +
                                    "VALUES ('IQTools','" + IPAddress + "','" + ClsUtility.Encrypt(EMRConnectionString) + "','" + EMRDB + "','" + ServerType + "','No Data','" + EMRType + "','" + EMRVersion + "', GETDATE())";
@@ -253,7 +261,7 @@ namespace DataLayer
                                                , ClsUtility.ObjectEnum.ExecuteNonQuery, "mssql");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -291,60 +299,27 @@ namespace DataLayer
 
         public static string getServerType(string xmlPath)
         {
-            //XmlDocument theXML = new XmlDocument();
-            //theXML.Load(xmlPath);
-            //XmlNode nd = theXML.SelectSingleNode("//add[@key='ServerType']");
-            //if (nd != null)
-            //{
-            //    return nd.Attributes["value"].Value; //return the value of the value attribute of this node
-            //}
-            //return "";
             return GetServerType();
         }
 
         public static string getDevelopmentRight(string xmlPath)
         {
-            //XmlDocument theXML = new XmlDocument ( );
-            //theXML.Load ( xmlPath );
-            //XmlNode nd = theXML.SelectSingleNode ( "//add[@key='Development']" );
-            //if (nd != null)
-            //{
-            //  return nd.Attributes["value"].Value; //return the value of the value attribute of this node
-            //}
-            //return "";
             return GetDevRights();
         }
 
         public static string getRefreshRights(string xmlPath)
         {
-            //XmlDocument theXML = new XmlDocument();
-            //theXML.Load(xmlPath);
-            //XmlNode nd = theXML.SelectSingleNode("//add[@key='AllowRefresh']");
-            //if (nd != null)
-            //{
-            //    return nd.Attributes["value"].Value; //return the value of the value attribute of this node
-            //}
-            //return "";
             return GetRefreshRights();
         }
 
         public object ReturnObject(string ConString, Hashtable Params, string CommandText, ClsUtility.ObjectEnum Obj, string pmmsType)
         {
             switch (pmmsType.Trim().ToLower())
-
             {
                 case "mssql":
                     {
                         return MsSQLObject(ConString, Params, CommandText, Obj);
                     }
-                //case "mysql":
-                //    {
-                //        return MySQLObject(ConString, Params, CommandText, Obj);
-                //    }
-                case "pgsql":
-                    //{
-                    //    return PgSQLObject(ConString, Params, CommandText, Obj);
-                    //}
                 case "access":
                     {
                         return AccessObject(ConString, Params, CommandText, Obj);
@@ -355,7 +330,6 @@ namespace DataLayer
                     }
 
             }
-
         }
 
         private object MsSQLObject(string ConString, Hashtable Params, string CommandText, ClsUtility.ObjectEnum Obj)
@@ -564,25 +538,7 @@ namespace DataLayer
  
         public static string getdbConnString(SqlConnection conn, string pmm)
         {
-            string connStr;
-            connStr = "";
-
-            try
-            {
-                SqlCommand comm = new SqlCommand("SELECT connString From aa_Database WHERE DbName = '" + pmm + "'", conn);
-                SqlDataReader sDR = comm.ExecuteReader();
-                while (sDR.Read())
-                {
-                    connStr = ClsUtility.Decrypt(sDR[0].ToString()); //+ "Allow User Variables=True";
-                    break;
-                }
-            }
-            catch (Exception ex)
-            {
-                connStr = ex.Message;
-                connStr = "";
-            }
-            return connStr;
+            return GetEMRConnString();
         }
 
         public static object GetConnection(string ConString, string dbType)
@@ -595,12 +551,6 @@ namespace DataLayer
                         connection.Open();
                         return connection;
                     }
-                //case "mysql":
-                //    {
-                //        MySqlConnection connection = new MySqlConnection(ConString);
-                //        connection.Open();
-                //        return connection;
-                //    }
 
                 case "msaccess":
                     {
@@ -608,12 +558,6 @@ namespace DataLayer
                         connection.Open();
                         return connection;
                     }
-                //case "pgsql":
-                //    {
-                //        NpgsqlConnection connection = new NpgsqlConnection(ConString);
-                //        connection.Open();
-                //        return connection;
-                //    }
                 default:
                     {
                         SqlConnection connection = new SqlConnection(ConString);
@@ -671,10 +615,11 @@ namespace DataLayer
 
         public static void ForceUpgrade()
         {
-            ServerConnection srvConn = new ServerConnection();
+            SqlConnection srvConn = new SqlConnection();
+            srvConn.ConnectionString = GetConnString();
+
             try
             {
-                srvConn.ConnectionString = GetConnString();
                 UpdateIQToolsSystemTables(srvConn);
                 UpdateIQToolsSystemFunctions(srvConn);
                 UpdateIQToolsSystemProcedures(srvConn);
@@ -687,47 +632,35 @@ namespace DataLayer
 
             finally
             {
-                srvConn.Disconnect();
+                srvConn.Close();
             }
         }
         
         private static void UpdateIQToolsDB(string dbName, string Server, string User, string Password)
         {
-           
             try
             {
-                ServerConnection srvConn = new ServerConnection(Server)
-                {
-                    LoginSecure = false,
-                    Login = User,
-                    Password = Password
-                };
+                string constring = "Data Source=" + Server + "; Initial Catalog=Master;Persist Security Info=True;User ID=" + User + ";Password=" + Password;
+                SqlConnection srvConn = new SqlConnection(constring);
+
                 string createSQL = "IF NOT EXISTS (Select name from sys.databases where name = '" + dbName + "') CREATE DATABASE [" + dbName + "]";
                
                 try
                 {
-                    srvConn.ExecuteNonQuery(createSQL);
-                    srvConn.Disconnect();
+                    ExecuteNonQuery(createSQL, srvConn);
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(createSQL + " - " + ex.Message);
-                } 
+                }
 
-                srvConn = new ServerConnection(Server)
-                {
-                    LoginSecure = false,
-                    Login = User,
-                    Password = Password,
-                    DatabaseName = dbName
-                };
+                constring = "Data Source=" + Server + "; Initial Catalog=" + dbName + ";Persist Security Info=True;User ID=" + User + ";Password=" + Password;
+                srvConn = new SqlConnection(constring);
 
                 UpdateIQToolsSystemTables(srvConn);
                 UpdateIQToolsSystemFunctions(srvConn);
                 UpdateIQToolsSystemProcedures(srvConn);
                 UpdateIQToolsSystemReports(srvConn);
-                
-                srvConn.Disconnect();
             }
             catch (Exception ex)
             {
@@ -736,24 +669,21 @@ namespace DataLayer
             }
         }
 
-        private static void UpdateIQToolsSystemTables(ServerConnection conn)
+
+
+        private static void UpdateIQToolsSystemTables(SqlConnection conn)
         {
             try
             {
                 string TableDef = "DB\\IQCare\\Tables.sql";
                 FileInfo tables = new FileInfo(TableDef);
                 string tablesScript = tables.OpenText().ReadToEnd();
-                conn.ExecuteNonQuery(tablesScript);
+                ExecuteNonQuery(tablesScript, conn);
 
                 string VersionDef = "DB\\IQCare\\Version.sql";
                 FileInfo version = new FileInfo(VersionDef);
                 string versionScript = version.OpenText().ReadToEnd();
-                conn.ExecuteNonQuery(versionScript);
-
-                //string TableData = "DB\\IQCare\\TableData.sql";
-                //FileInfo tData = new FileInfo(TableData);
-                //string tDataScript = tData.OpenText().ReadToEnd();
-                //conn.ExecuteNonQuery(tDataScript);
+                ExecuteNonQuery(versionScript, conn);
             }
             catch(Exception ex)
             {
@@ -761,7 +691,7 @@ namespace DataLayer
             }
         }
 
-        private static void UpdateIQToolsSystemFunctions(ServerConnection conn)
+        private static void UpdateIQToolsSystemFunctions(SqlConnection conn)
         {
             try
             {
@@ -771,7 +701,7 @@ namespace DataLayer
                     {
                         FileInfo f = new FileInfo(s);
                         string fs = f.OpenText().ReadToEnd();
-                        conn.ExecuteNonQuery(fs);
+                        ExecuteNonQuery(fs, conn);
                     }
                 }
                 foreach (string subfolder in Directory.GetDirectories("DB\\Functions"))
@@ -782,7 +712,7 @@ namespace DataLayer
                         {
                             FileInfo fi = new FileInfo(f);
                             string fs = fi.OpenText().ReadToEnd();
-                            conn.ExecuteNonQuery(fs);
+                            ExecuteNonQuery(fs, conn);
                         }
                     }
                 }
@@ -793,7 +723,7 @@ namespace DataLayer
             }
         }
 
-        private static void UpdateIQToolsSystemProcedures(ServerConnection conn)
+        private static void UpdateIQToolsSystemProcedures(SqlConnection conn)
         {
             try
             {
@@ -803,7 +733,7 @@ namespace DataLayer
                     {
                         FileInfo f = new FileInfo(s);
                         string fs = f.OpenText().ReadToEnd();
-                        conn.ExecuteNonQuery(fs);
+                        ExecuteNonQuery(fs, conn);
                     }
                 }
                 foreach (string subfolder in Directory.GetDirectories("DB\\Procedures"))
@@ -814,7 +744,7 @@ namespace DataLayer
                         {
                             FileInfo fi = new FileInfo(f);
                             string fs = fi.OpenText().ReadToEnd();
-                            conn.ExecuteNonQuery(fs);
+                            ExecuteNonQuery(fs, conn);
                         }
                     }
                 }
@@ -825,7 +755,7 @@ namespace DataLayer
             }
         }
 
-        private static void UpdateIQToolsSystemReports(ServerConnection conn)
+        private static void UpdateIQToolsSystemReports(SqlConnection conn)
         {
             //Reports
             try
@@ -836,7 +766,7 @@ namespace DataLayer
                     {
                         FileInfo f = new FileInfo(s);
                         string fs = f.OpenText().ReadToEnd();
-                        conn.ExecuteNonQuery(fs);
+                        ExecuteNonQuery(fs, conn);
                     }
                 }
                 foreach (string subfolder in Directory.GetDirectories("Reports"))
@@ -847,7 +777,7 @@ namespace DataLayer
                         {
                             FileInfo fi = new FileInfo(f);
                             string fs = fi.OpenText().ReadToEnd();
-                            conn.ExecuteNonQuery(fs);
+                            ExecuteNonQuery(fs, conn);
                         }
                     }
                 }
@@ -858,31 +788,24 @@ namespace DataLayer
             }
         }
 
-        public static bool CreateIQToolsDB(string EMRServerType, string IQToolsUser, string IQToolsServer, string IQToolsPassword
-            , string IQToolsDB, string EMR)
+        public static bool CreateIQToolsDB(string EMRServerType, string IQToolsUser, string IQToolsServer, string IQToolsPassword, string IQToolsDB, string EMR)
         {
             try
             {
-                ServerConnection srvConn = new ServerConnection(IQToolsServer);
+                String constring = "Data Source=" + IQToolsServer + "; Initial Catalog=Master;Persist Security Info=True;User ID=" + IQToolsUser + ";Password=" + IQToolsPassword;
+                SqlConnection srvConn = new SqlConnection(constring);
 
-                srvConn.LoginSecure = false;
-                srvConn.Login = IQToolsUser;
-                srvConn.Password = IQToolsPassword;
-
-                SqlDataReader theDtr;
+                DataSet theDtr;
                 string mdf = string.Empty, ldf = string.Empty, logicalname = string.Empty;
                 try
                 {
                     try ////Check if Select DB is an IQTools DB by Logical Name
                     {
-                        theDtr = srvConn.ExecuteReader("USE [" + IQToolsDB + "];SELECT file_name(1) AS 'LogicalName'");
-                        while (theDtr.Read())
-                        {
-                            logicalname = theDtr["LogicalName"].ToString();
-                        }
-                        theDtr.Close();
+                        theDtr = ExecuteReader("USE [" + IQToolsDB + "];SELECT file_name(1) AS 'LogicalName'", constring);
+                        logicalname = theDtr.Tables[0].Rows[0]["LogicalName"].ToString();
                     }
                     catch { }
+
                     if (logicalname.Trim().ToLower().Contains("iqtools") || logicalname.Trim().ToLower() == "")
                     {                      
                         if (EMRServerType.ToLower() == "microsoft sql server")
@@ -940,39 +863,21 @@ namespace DataLayer
         {
             try
             {
-                Entity en = new Entity();
-                DataRow dr = (DataRow)en.ReturnObject(Entity.GetConnString(),
-                                ClsUtility.theParams,
-                                "Select ConnString, PMMSType, PMMS From aa_Database",
-                                ClsUtility.ObjectEnum.DataRow, serverType);  
+                string IQToolsConnectionString = Entity.GetConnString();
+                SqlConnection con = new SqlConnection(IQToolsConnectionString + ";Connection Timeout=5");
+                con.Open();
+                con.Close();
 
-                string PMMSType = dr["PMMSType"].ToString();
-                if (PMMSType.ToLower() == "mssql")
-                {
-                    string EMRConnectionString = dr["ConnString"].ToString();
-                    SqlConnection con = new SqlConnection(ClsUtility.Decrypt(EMRConnectionString) + ";Connection Timeout=5");
-                    con.Open();
-                    con.Close();
-                    
-                }
-                else if (PMMSType.ToLower() == "mysql")
-                {
-
-                }
+                string EMRConnectionString = Entity.GetEMRConnString();
+                con = new SqlConnection(EMRConnectionString + ";Connection Timeout=5");
+                con.Open();
+                con.Close();
 
                 return true;
             }
             catch (Exception ex)
             {
-
-                if (ex.Message.Contains("Unknown database"))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
         }
 
@@ -1059,10 +964,11 @@ namespace DataLayer
         {
             Entity en = new Entity();
             string connectionString = GetConnString();
+            string EMRConnstring = GetEMRConnString();
+
             try
             {
-                DataRow dr = (DataRow)en.ReturnObject(connectionString, null, "Select dbase IQCareDB from aa_database", ClsUtility.ObjectEnum.DataRow, "mssql");
-                string IQCareDB = dr["IQCareDB"].ToString();
+                string IQCareDB = Entity.GetEMRDatabaseName(EMRConnstring);
                 string SQLString = string.Empty;
                 int j = 0;               
                 SqlConnection myConn = new SqlConnection();
@@ -1110,6 +1016,55 @@ namespace DataLayer
             }
         }
 
-    }
 
+        public static void ExecuteNonQuery(string sql, SqlConnection conn)
+        {
+            string sqlBatch = string.Empty;
+            SqlCommand cmd = new SqlCommand(string.Empty, conn);
+            conn.Open();
+            sql += "\nGO";   // make sure last batch is executed.
+            try
+            {
+                foreach (string line in sql.Split(new string[2] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (line.ToUpperInvariant().Trim() == "GO")
+                    {
+                        try
+                        {
+                            cmd.CommandText = sqlBatch;
+                            cmd.ExecuteNonQuery();
+                            sqlBatch = string.Empty;
+                        }
+                        catch
+                        {
+                            sqlBatch = string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        sqlBatch += line + "\n";
+                    }
+                }
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static DataSet ExecuteReader(string sQuery, string sConstring)
+        {
+            DataSet ds = new DataSet();
+            SqlConnection con = new SqlConnection(sConstring);
+            con.Open();
+            SqlCommand command = new SqlCommand(sQuery, con);
+            command.CommandType = CommandType.Text;
+
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = command;
+            da.Fill(ds);
+            con.Close();
+            return ds;
+        }
+    }
 }

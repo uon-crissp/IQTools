@@ -25,7 +25,7 @@ FROM dtl_PatientCareEnded a INNER JOIN
 	from dtl_patientcareended a inner join
 	dtl_patienttrackingcare b on a.ptn_pk = b.ptn_pk
 	and a.trackingid = b.trackingid
-	where b.moduleid in (2,203, 6)
+	where b.moduleid in (1,2,203, 6)
 	and a.CareEnded = 1
 	GROUP BY a.Ptn_Pk) b ON a.Ptn_Pk = b.Ptn_Pk AND a.CareEndedDate = b.ExitDate 
 	AND a.CareEnded = 1
