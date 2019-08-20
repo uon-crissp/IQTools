@@ -691,7 +691,7 @@ namespace DataLayer
             }
         }
 
-        private static void UpdateIQToolsSystemFunctions(SqlConnection conn)
+        public static void UpdateIQToolsSystemFunctions(SqlConnection conn)
         {
             try
             {
@@ -718,6 +718,54 @@ namespace DataLayer
                 }
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void UpdateIQToolsSystemFunctions_90dayLFTU(SqlConnection conn)
+        {
+            try
+            {
+                foreach (string s in Directory.GetFiles("DB\\Functions"))
+                {
+                    if (File.Exists(s))
+                    {
+                        FileInfo f = new FileInfo(s);
+                        string fs = f.OpenText().ReadToEnd();
+
+                        if (fs.Contains("fn_GetNextVisitDate") || fs.Contains("fn_GetLastActiveDate") || fs.Contains("fn_ActiveCCC"))
+                        {
+                            ExecuteNonQuery(fs.Replace("31", "90"), conn);
+                        }
+                        else
+                        {
+                            ExecuteNonQuery(fs, conn);
+                        }
+                    }
+                }
+
+                foreach (string subfolder in Directory.GetDirectories("DB\\Functions"))
+                {
+                    foreach (string f in Directory.GetFiles(subfolder))
+                    {
+                        if (File.Exists(f))
+                        {
+                            FileInfo fi = new FileInfo(f);
+                            string fs = fi.OpenText().ReadToEnd();
+                            if (fs.Contains("fn_GetNextVisitDate") || fs.Contains("fn_GetLastActiveDate") || fs.Contains("fn_ActiveCCC"))
+                            {
+                                ExecuteNonQuery(fs.Replace("31", "90"), conn);
+                            }
+                            else
+                            {
+                                ExecuteNonQuery(fs, conn);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

@@ -67,6 +67,10 @@ namespace IQTools
             this.picIQCareDB = new System.Windows.Forms.PictureBox();
             this.lblIQCareVersion = new System.Windows.Forms.Label();
             this.lblIQToolsVersion = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.rdoLFTU30Days = new System.Windows.Forms.RadioButton();
+            this.rdoLFTU90Days = new System.Windows.Forms.RadioButton();
+            this.lblCriteria = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picLoad)).BeginInit();
             this.tcLogin.SuspendLayout();
             this.tpLogin.SuspendLayout();
@@ -81,13 +85,14 @@ namespace IQTools
             ((System.ComponentModel.ISupportInitialize)(this.picSettingsProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picServer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picIQCareDB)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblLoad
             // 
             this.lblLoad.AutoSize = true;
             this.lblLoad.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoad.Location = new System.Drawing.Point(341, 217);
+            this.lblLoad.Location = new System.Drawing.Point(341, 248);
             this.lblLoad.Name = "lblLoad";
             this.lblLoad.Size = new System.Drawing.Size(11, 13);
             this.lblLoad.TabIndex = 19;
@@ -97,7 +102,7 @@ namespace IQTools
             // picLoad
             // 
             this.picLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picLoad.Location = new System.Drawing.Point(314, 217);
+            this.picLoad.Location = new System.Drawing.Point(314, 248);
             this.picLoad.Margin = new System.Windows.Forms.Padding(0);
             this.picLoad.Name = "picLoad";
             this.picLoad.Size = new System.Drawing.Size(24, 24);
@@ -136,7 +141,7 @@ namespace IQTools
             this.chkRefresh.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRefresh.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkRefresh.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.chkRefresh.Location = new System.Drawing.Point(87, 197);
+            this.chkRefresh.Location = new System.Drawing.Point(87, 198);
             this.chkRefresh.Name = "chkRefresh";
             this.chkRefresh.Size = new System.Drawing.Size(125, 17);
             this.chkRefresh.TabIndex = 12;
@@ -145,11 +150,10 @@ namespace IQTools
             // 
             // cmdLogin
             // 
-            this.cmdLogin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmdLogin.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmdLogin.Location = new System.Drawing.Point(87, 168);
+            this.cmdLogin.Location = new System.Drawing.Point(87, 221);
             this.cmdLogin.Name = "cmdLogin";
-            this.cmdLogin.Size = new System.Drawing.Size(248, 23);
+            this.cmdLogin.Size = new System.Drawing.Size(248, 24);
             this.cmdLogin.TabIndex = 4;
             this.cmdLogin.Text = "Login";
             this.cmdLogin.UseVisualStyleBackColor = true;
@@ -208,7 +212,7 @@ namespace IQTools
             this.tcLogin.Margin = new System.Windows.Forms.Padding(0);
             this.tcLogin.Name = "tcLogin";
             this.tcLogin.SelectedIndex = 0;
-            this.tcLogin.Size = new System.Drawing.Size(432, 281);
+            this.tcLogin.Size = new System.Drawing.Size(432, 305);
             this.tcLogin.TabIndex = 1;
             this.tcLogin.SelectedIndexChanged += new System.EventHandler(this.tcLogin_SelectedIndexChanged);
             // 
@@ -219,7 +223,7 @@ namespace IQTools
             this.tpLogin.Location = new System.Drawing.Point(4, 22);
             this.tpLogin.Margin = new System.Windows.Forms.Padding(1);
             this.tpLogin.Name = "tpLogin";
-            this.tpLogin.Size = new System.Drawing.Size(424, 255);
+            this.tpLogin.Size = new System.Drawing.Size(424, 279);
             this.tpLogin.TabIndex = 0;
             this.tpLogin.Text = "Login";
             // 
@@ -229,7 +233,6 @@ namespace IQTools
             this.tlpLogin.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tlpLogin.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tlpLogin.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpLogin.Controls.Add(this.cmdLogin, 1, 5);
             this.tlpLogin.Controls.Add(this.lblUID, 0, 2);
             this.tlpLogin.Controls.Add(this.txtUser, 1, 2);
             this.tlpLogin.Controls.Add(this.lblPwd, 0, 3);
@@ -238,12 +241,15 @@ namespace IQTools
             this.tlpLogin.Controls.Add(this.lblFacility, 0, 4);
             this.tlpLogin.Controls.Add(this.picLogo, 0, 0);
             this.tlpLogin.Controls.Add(this.chkRefresh, 1, 7);
-            this.tlpLogin.Controls.Add(this.lblLoad, 2, 8);
-            this.tlpLogin.Controls.Add(this.picLoad, 1, 8);
+            this.tlpLogin.Controls.Add(this.lblLoad, 2, 9);
+            this.tlpLogin.Controls.Add(this.picLoad, 1, 9);
+            this.tlpLogin.Controls.Add(this.cmdLogin, 1, 8);
+            this.tlpLogin.Controls.Add(this.flowLayoutPanel1, 1, 5);
+            this.tlpLogin.Controls.Add(this.lblCriteria, 0, 5);
             this.tlpLogin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpLogin.Location = new System.Drawing.Point(0, 0);
             this.tlpLogin.Name = "tlpLogin";
-            this.tlpLogin.RowCount = 9;
+            this.tlpLogin.RowCount = 10;
             this.tlpLogin.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpLogin.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tlpLogin.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -252,8 +258,9 @@ namespace IQTools
             this.tlpLogin.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpLogin.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpLogin.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpLogin.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tlpLogin.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpLogin.Size = new System.Drawing.Size(424, 255);
+            this.tlpLogin.Size = new System.Drawing.Size(424, 279);
             this.tlpLogin.TabIndex = 1;
             // 
             // picLogo
@@ -559,12 +566,58 @@ namespace IQTools
             this.lblIQToolsVersion.TabIndex = 26;
             this.lblIQToolsVersion.Text = ".";
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.rdoLFTU30Days);
+            this.flowLayoutPanel1.Controls.Add(this.rdoLFTU90Days);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(87, 168);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(248, 24);
+            this.flowLayoutPanel1.TabIndex = 21;
+            // 
+            // rdoLFTU30Days
+            // 
+            this.rdoLFTU30Days.AutoSize = true;
+            this.rdoLFTU30Days.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoLFTU30Days.Location = new System.Drawing.Point(3, 3);
+            this.rdoLFTU30Days.Name = "rdoLFTU30Days";
+            this.rdoLFTU30Days.Size = new System.Drawing.Size(90, 17);
+            this.rdoLFTU30Days.TabIndex = 0;
+            this.rdoLFTU30Days.Text = "30 Days LTFU";
+            this.rdoLFTU30Days.UseVisualStyleBackColor = true;
+            this.rdoLFTU30Days.CheckedChanged += new System.EventHandler(this.rdoLFTU30Days_CheckedChanged);
+            // 
+            // rdoLFTU90Days
+            // 
+            this.rdoLFTU90Days.AutoSize = true;
+            this.rdoLFTU90Days.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdoLFTU90Days.Location = new System.Drawing.Point(99, 3);
+            this.rdoLFTU90Days.Name = "rdoLFTU90Days";
+            this.rdoLFTU90Days.Size = new System.Drawing.Size(90, 17);
+            this.rdoLFTU90Days.TabIndex = 1;
+            this.rdoLFTU90Days.Text = "90 Days LTFU";
+            this.rdoLFTU90Days.UseVisualStyleBackColor = true;
+            this.rdoLFTU90Days.CheckedChanged += new System.EventHandler(this.rdoLFTU90Days_CheckedChanged);
+            // 
+            // lblCriteria
+            // 
+            this.lblCriteria.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblCriteria.AutoSize = true;
+            this.lblCriteria.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCriteria.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCriteria.Location = new System.Drawing.Point(7, 173);
+            this.lblCriteria.Name = "lblCriteria";
+            this.lblCriteria.Size = new System.Drawing.Size(74, 13);
+            this.lblCriteria.TabIndex = 22;
+            this.lblCriteria.Text = "LTFU Criteria:";
+            this.lblCriteria.Visible = false;
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.cmdLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 281);
+            this.ClientSize = new System.Drawing.Size(432, 305);
             this.Controls.Add(this.tcLogin);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -590,6 +643,8 @@ namespace IQTools
             ((System.ComponentModel.ISupportInitialize)(this.picSettingsProgress)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picServer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picIQCareDB)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -633,5 +688,9 @@ namespace IQTools
         private System.Windows.Forms.Label lblIQCareVersion;
         private System.Windows.Forms.Label lblIQToolsVersion;
         private System.Windows.Forms.PictureBox picLogo;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.RadioButton rdoLFTU30Days;
+        private System.Windows.Forms.RadioButton rdoLFTU90Days;
+        private System.Windows.Forms.Label lblCriteria;
     }
 }

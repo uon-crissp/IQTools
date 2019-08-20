@@ -7,56 +7,6 @@ AS
 BEGIN 
 	EXEC('IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''tmp_ARTPatients'') AND type in (N''U''))
 		DROP TABLE tmp_ARTPatients')
-	EXEC('IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''temp_art_a'') AND type in (N''U''))
-		DROP TABLE temp_art_a')
-	EXEC('IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''temp_art_b'') AND type in (N''U''))
-		DROP TABLE temp_art_b')
-	EXEC('IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''temp_art_c'') AND type in (N''U''))
-		DROP TABLE temp_art_c')
-
-	exec('Select Distinct b.PatientPK,
-			a.StartARTDate,
-			Min(b.Duration) Duration,
-			Max(b.Drug) As StartRegimen,
-			MAX(b.RegimenLine) RegimenLine
-			into temp_art_a
-		  From tmp_pharmacy b
-			Inner Join (Select a.PatientPK,
-			  Min(a.DispenseDate) StartARTDate			
-			From tmp_pharmacy a
-			Where a.TreatmentType = ''ART''
-			Group By a.PatientPK) a On b.PatientPK = a.PatientPK And
-			  b.DispenseDate = a.startARTDate And b.TreatmentType = ''ART''
-		  Group By b.PatientPK,
-			a.startARTDate')
-
-	exec('Select Distinct b.PatientPK,
-			a.LastARTDate,
-			Min(b.Duration) Duration,
-			Max(b.Drug) As LastRegimen,
-			MAX(b.Provider) Provider,
-			DateAdd(dd, Min(b.Duration), a.lastARTDate) ExpectedReturn,
-			MAX(b.RegimenLine) RegimenLine
-			into temp_art_b
-		  From tmp_pharmacy b
-			Inner Join (Select a.PatientPK,
-			  Max(a.DispenseDate) LastARTDate
-			From tmp_pharmacy a
-			Where a.TreatmentType = ''ART''
-			Group By a.PatientPK) a On b.PatientPK = a.PatientPK And
-			  b.DispenseDate = a.lastARTDate and b.TreatmentType = ''ART''
-		  Group By b.PatientPK,
-			a.lastARTDate')
-
-	exec('select distinct a.ptn_pk as PatientPK into temp_art_c 
-				from ord_visit a
-				inner join mst_visittype b on a.visittype=b.visittypeid
-				where isnull(a.deleteflag,0)=0 
-				and b.visitname in (''clinical encounter'',''ART History'',''01 Initial Evaluation Form'',''02 Follow Up Form'',''Initial and Follow up Visits'')')
-
-	EXEC('CREATE CLUSTERED INDEX [IDX_PatientPK] ON [dbo].[temp_art_a] ([PatientPK] ASC )')
-	EXEC('CREATE CLUSTERED INDEX [IDX_PatientPK] ON [dbo].[temp_art_b] ([PatientPK] ASC )')
-	EXEC('CREATE CLUSTERED INDEX [IDX_PatientPK] ON [dbo].[temp_art_c] ([PatientPK] ASC )')
 
 	EXEC('Select m.PatientPK,
 		  m.PatientID,
@@ -106,11 +56,44 @@ BEGIN
 		INTO tmp_ARTPatients
   
 		From tmp_PatientMaster m
-		  Inner Join temp_art_a c On m.PatientPK = c.PatientPK
-		  Inner Join temp_art_b d On m.PatientPK = d.PatientPK
-		  inner join temp_art_c f On m.PatientPK = f.PatientPK
+		  Inner Join (Select Distinct b.PatientPK,
+			a.StartARTDate,
+			Min(b.Duration) Duration,
+			Max(b.Drug) As StartRegimen,
+			MAX(b.RegimenLine) RegimenLine
+		  From tmp_pharmacy b
+			Inner Join (Select a.PatientPK,
+			  Min(a.DispenseDate) StartARTDate
+			From tmp_pharmacy a
+			Where a.TreatmentType = ''ART''
+			Group By a.PatientPK) a On b.PatientPK = a.PatientPK And
+			  b.DispenseDate = a.startARTDate And b.TreatmentType = ''ART''
+		  Group By b.PatientPK,
+			a.startARTDate) c On m.PatientPK = c.PatientPK
+		  Inner Join 
+		  ( Select Distinct b.PatientPK,
+			a.LastARTDate,
+			Min(b.Duration) Duration,
+			Max(b.Drug) As LastRegimen,
+			MAX(b.Provider) Provider,
+			DateAdd(dd, Min(b.Duration), a.lastARTDate) ExpectedReturn,
+			MAX(b.RegimenLine) RegimenLine
+		  From tmp_pharmacy b
+			Inner Join (Select a.PatientPK,
+			  Max(a.DispenseDate) LastARTDate
+			From tmp_pharmacy a
+			Where a.TreatmentType = ''ART''
+			Group By a.PatientPK) a On b.PatientPK = a.PatientPK And
+			  b.DispenseDate = a.lastARTDate and b.TreatmentType = ''ART''
+		  Group By b.PatientPK,
+			a.lastARTDate) d On m.PatientPK = d.PatientPK
 		  Left Join tmp_lastStatus e On m.PatientPK = e.PatientPK
-		  ')
+		Where coalesce(m.RegistrationAtCCC,m.registrationAtPMTCT) Is Not Null 
+		and m.patientpk in (
+			select x.ptn_pk from ord_visit x 
+			inner join mst_visittype y on x.visittype=y.visittypeid
+			where isnull(x.deleteflag,0)=0 and y.visitname in (''Initial and Follow up Visits'', ''Clinical Encounter'')
+			)')
 	
 	EXEC('CREATE CLUSTERED INDEX [IDX_PatientPK] ON 
 		[dbo].[tmp_ARTPatients] ([PatientPK] ASC )

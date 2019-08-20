@@ -127,10 +127,5 @@ Begin
 	) a
 	 ')
 
-	EXEC('CREATE CLUSTERED INDEX [IDX_PatientPK] ON [dbo].[tmp_Pharmacy] ([PatientPK] ASC )')
-	EXEC('CREATE NONCLUSTERED INDEX [IDX_tmp_Pharmacy_TreatmentType] ON [dbo].[tmp_Pharmacy] ([TreatmentType] ASC )')
-	EXEC('CREATE NONCLUSTERED INDEX [IDX_tmp_Pharmacy_DispenseDate] ON [dbo].[tmp_Pharmacy] ([DispenseDate] ASC )')
-	EXEC('CREATE NONCLUSTERED INDEX [IDX_tmp_Pharmacy_ExpectedReturn] ON [dbo].[tmp_Pharmacy] ([ExpectedReturn] ASC )')
-
 END
 go

@@ -111,6 +111,7 @@ namespace IQTools
                     if (emrType == "iqcare" || emrType == "cpad")
                     {
                         Text = "IQTools | " + "v" + clsGbl.IQToolsVersion + " | " + clsGbl.loggedInUser.FacilityName;
+                        lblLTFUApplicable.Text = clsGbl.LTFUApplicable;
                     }                   
                 }
                 catch (Exception ex)

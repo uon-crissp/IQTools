@@ -6,6 +6,7 @@ using BusinessLayer;
 using System.Threading;
 using System.Reflection;
 using System.Data.Sql;
+using System.Data.SqlClient;
 
 namespace IQTools
 {
@@ -57,6 +58,13 @@ namespace IQTools
         private void cmdLogin_Click(object sender, EventArgs e)
         {
             string selectedFacility = "";
+
+            if (!rdoLFTU30Days.Checked && !rdoLFTU90Days.Checked)
+            {
+                MessageBox.Show("Please select the LTFU criteria", Assets.Messages.InfoHeader, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (clsGbl.SettingsValid == false)
             {
                 MessageBox.Show(Assets.Messages.InvalidSettings, Assets.Messages.InfoHeader, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -64,6 +72,15 @@ namespace IQTools
             }
             else
             {
+                if (rdoLFTU30Days.Checked)
+                {
+                    clsGbl.LTFUApplicable = "LTFU 30 Days Applicable";
+                }
+                else
+                {
+                    clsGbl.LTFUApplicable = "LTFU 90 Days Applicable";
+                }
+
                 if (txtUser.Text != "" && txtPassword.Text != "")
                 {
                     if (emrType == "iqcare")
@@ -180,6 +197,7 @@ namespace IQTools
             {
                 lblFacility.Visible = true;
                 cboFacility.Visible = true;
+                lblCriteria.Visible = true;
 
                 string sql = "Select FacilityName, FacilityID FROM mst_Facility WHERE DeleteFlag = 0";
                 Entity en = new Entity();
@@ -627,6 +645,30 @@ namespace IQTools
             SetControlPropertyThreadSafe(tcLogin, "SelectedTab", tpLogin);
             SetControlPropertyThreadSafe(picLoad, "Image", Properties.Resources.right);
             SetControlPropertyThreadSafe(lblLoad, "Text", "Settings Successfully Saved");
+        }
+
+        private void rdoLFTU30Days_CheckedChanged(object sender, EventArgs e)
+        {
+            string connectionString = Entity.GetConnString();
+            SqlConnection myConn = new SqlConnection();
+            myConn.ConnectionString = connectionString;
+
+            if (rdoLFTU30Days.Checked)
+            { 
+                Entity.UpdateIQToolsSystemFunctions(myConn);
+            }
+        }
+
+        private void rdoLFTU90Days_CheckedChanged(object sender, EventArgs e)
+        {
+            string connectionString = Entity.GetConnString();
+            SqlConnection myConn = new SqlConnection();
+            myConn.ConnectionString = connectionString;
+
+            if (rdoLFTU90Days.Checked)
+            {
+                Entity.UpdateIQToolsSystemFunctions_90dayLFTU(myConn);
+            }
         }
     }
 }

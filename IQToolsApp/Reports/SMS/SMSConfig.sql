@@ -67,20 +67,24 @@ INSERT INTO dbo.aa_Queries
 )
 VALUES
 (   N'Next Appointment Alert',       -- qryName - nvarchar(50)
-    N'select distinct a.PatientPK
+    N'select a.PatientPK
 	, a.PatientName
 	, a.PatientID
 	, a.PhoneNumber as Phone
 	, a.AgeCurrent
-	, b.appdate as NextAppointmentDate
-	, c.name as AppReason  
+	, cast(convert(varchar,b.appdate,106) as datetime) as NextAppointmentDate
+	, min(c.name) as AppReason  
 	from tmp_PatientMaster a inner join dtl_patientappointment b on a.patientpk= b.ptn_pk
 	left join mst_decode c on b.appreason = c.id 
 	where 
-	b.appdate=CAST(@Appointment_Date as datetime)
-	and a.PhoneNumber is not null    
-	and c.name = ''Follow up''
-	and a.patientpk in(select ptn_pk from DTL_FBCUSTOMFIELD_Patient_Registration where SMSConsented=1)',       -- qryDefinition - nvarchar(max)
+	cast(convert(varchar,b.appdate,106) as datetime)=CAST(@Appointment_Date as datetime)
+	and a.PhoneNumber is not null
+	group by a.PatientPK
+	, a.PatientName
+	, a.PatientID
+	, a.PhoneNumber
+	, a.AgeCurrent
+	, cast(convert(varchar,b.appdate,106) as datetime)',       -- qryDefinition - nvarchar(max)
     N'Next Appointment Alert',       -- qryDescription - nvarchar(200)
     N'Function',       -- qryType - nvarchar(10)
     GETDATE(), 
@@ -146,14 +150,19 @@ INSERT INTO dbo.aa_Queries
 )
 VALUES
 (   N'Treatment Preparation',       -- qryName - nvarchar(50)
-    N'select distinct a.PatientPK, a.PatientName, a.PatientID, a.PhoneNumber as Phone,      
-	a.AgeCurrent, b.appdate as NextAppointmentDate, c.name as AppReason  from tmp_PatientMaster a     
-	inner join dtl_patientappointment b on a.patientpk= b.ptn_pk     
-	left join mst_decode c on b.appreason = c.id     
-	where cast(b.appdate as date) =CAST(@Appointment_Date as date)     
+    N'select distinct a.PatientPK
+	, a.PatientName
+	, a.PatientID
+	, a.PhoneNumber as Phone
+	, a.AgeCurrent
+	, b.appdate as NextAppointmentDate
+	, c.name as AppReason  
+	from tmp_PatientMaster a inner join dtl_patientappointment b on a.patientpk= b.ptn_pk
+	left join mst_decode c on b.appreason = c.id 
+	where 
+	cast(convert(varchar,b.appdate,106) as datetime)=CAST(@Appointment_Date as datetime)
 	and a.PhoneNumber is not null  
-	and c.name = ''Treatment preparation'' 
-	and a.patientpk in (select ptn_pk from DTL_FBCUSTOMFIELD_Patient_Registration where SMSConsented=1)',       -- qryDefinition - nvarchar(max)
+	and c.name = ''Treatment preparation''',       -- qryDefinition - nvarchar(max)
     N'Treatment Preparation Alert',       -- qryDescription - nvarchar(200)
     N'Function',       -- qryType - nvarchar(10)
     GETDATE(), 
@@ -220,14 +229,19 @@ INSERT INTO dbo.aa_Queries
 )
 VALUES
 (   N'Support_Group_SMS_Reminder',       -- qryName - nvarchar(50)
-    N'select distinct a.PatientPK, a.PatientName, a.PatientID, a.PhoneNumber as Phone,      
-	a.AgeCurrent, b.appdate as NextAppointmentDate, c.name as AppReason  from tmp_PatientMaster a     
-	inner join dtl_patientappointment b on a.patientpk= b.ptn_pk     
-	left join mst_decode c on b.appreason = c.id     
-	where b.appdate=CAST(@Appointment_Date as datetime)     
+    N'select distinct a.PatientPK
+	, a.PatientName
+	, a.PatientID
+	, a.PhoneNumber as Phone
+	, a.AgeCurrent
+	, b.appdate as NextAppointmentDate
+	, c.name as AppReason  
+	from tmp_PatientMaster a inner join dtl_patientappointment b on a.patientpk= b.ptn_pk
+	left join mst_decode c on b.appreason = c.id 
+	where 
+	cast(convert(varchar,b.appdate,106) as datetime)=CAST(@Appointment_Date as datetime)
 	and a.PhoneNumber is not null  
-	and c.name = ''support group meeting''
-	and a.patientpk in (select ptn_pk from DTL_FBCUSTOMFIELD_Patient_Registration where SMSConsented=1)',       -- qryDefinition - nvarchar(max)
+	and c.name = ''support group meeting''',       -- qryDefinition - nvarchar(max)
     N'Support Group Meeting Alert',       -- qryDescription - nvarchar(200)
     N'Function',       -- qryType - nvarchar(10)
     GETDATE(), 
@@ -369,10 +383,15 @@ INSERT INTO dbo.aa_Queries
 )
 VALUES
 (   N'SMS_Consent',       -- qryName - nvarchar(50)
-    N'select distinct a.PatientPK, a.PatientName, a.PatientID, a.PhoneNumber as Phone,   
-	 a.AgeCurrent from tmp_PatientMaster a  
-	 where a.PhoneNumber is not null
-	and a.patientpk in (select ptn_pk from DTL_FBCUSTOMFIELD_Patient_Registration where SMSConsented=1)',       -- qryDefinition - nvarchar(max)
+    N'select distinct a.PatientPK
+	, a.PatientName
+	, a.PatientID
+	, a.PhoneNumber as Phone
+	, a.AgeCurrent
+	, '''' as NextAppointmentDate
+	, '''' as AppReason  
+	from tmp_PatientMaster a
+	where a.PhoneNumber is not null',       -- qryDefinition - nvarchar(max)
     N'Line List of Patients who have consented to SMS Alerts',       -- qryDescription - nvarchar(200)
     N'Function',       -- qryType - nvarchar(10)
     GETDATE(), 

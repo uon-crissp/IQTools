@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("IQTools")]
 [assembly: AssemblyDescription("Reporting and Data Mining Software")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Palladium Group")]
+[assembly: AssemblyCompany("UoN")]
 [assembly: AssemblyProduct("IQTools")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
@@ -30,4 +30,4 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("4.2.4.0")]
+[assembly: AssemblyFileVersion("4.2.7.0")]

@@ -84,5 +84,7 @@ namespace BusinessLayer
         //WebServices
 
         public static string RemoteWebServiceURL = "";
+
+        public static string LTFUApplicable = "";
     }
 }
