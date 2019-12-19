@@ -268,6 +268,15 @@ namespace IQTools.Assets {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to For testing.
+        /// </summary>
+        internal static string SystemHeading {
+            get {
+                return ResourceManager.GetString("SystemHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A Version Change Has Been Detected. The IQTools Database Will Be Updated.
         /// </summary>
         internal static string UpdateDatabase {

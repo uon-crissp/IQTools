@@ -123,7 +123,8 @@ Begin
 	AND (c.DeleteFlag = 0 OR c.DeleteFlag IS NULL)
 	AND i.DrugTypeName = ''ARV Medication''
 	And c.DispensedByDate IS NOT NULL
-	and g.[name] not like ''%oi%''
+	and g.[name] in (''First line'',''First line substitute'',''Second line'',''Second line substitute'',''Third line'',''PMTCT'')
+	and f.Regimencode not like ''PC%''
 	) a
 	 ')
 

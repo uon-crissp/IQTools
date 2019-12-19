@@ -320,6 +320,18 @@ DROP VIEW [dbo].[IQC_LastVL]
 IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[IQC_AllVL]'))
 DROP VIEW [dbo].[IQC_AllVL]
 
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[IQC_AdverseEvents]'))
+DROP VIEW [dbo].IQC_AdverseEvents
+
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[IQC_bWAB]'))
+DROP VIEW [dbo].IQC_bWAB
+
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[IQC_eWAB]'))
+DROP VIEW [dbo].IQC_eWAB
+
+IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[IQC_lastWAB]'))
+DROP VIEW [dbo].IQC_lastWAB
+
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 
@@ -561,6 +573,97 @@ Group By a.PatientPK
 , a.FacilityID
 , b.m6CD4Date
 ' 
+
+IF NOT EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[IQC_AdverseEvents]'))
+EXEC dbo.sp_executesql @statement = N'
+CREATE VIEW IQC_AdverseEvents
+AS
+select Distinct PatientID, PatientPK, SiteCode, null as VisitDate, null as Regimen, null as AdverseEvent, null as AdverseEventCause, null as Severity, null as ActionTaken, null as  
+             ClinicalOutcome, null as AdverseEventEndDate, null as Pregnancy 
+			 from tmp_PatientMaster
+' 
+
+IF NOT EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[IQC_bWAB]'))
+EXEC dbo.sp_executesql @statement = N'
+CREATE view [dbo].[IQC_bWAB] as 
+WITH IQC_allWAB AS
+(Select Distinct a.PatientPK, m.FacilityID
+, Case When a.WABStage In (''Working'',''W'') Then 1      
+When a.WABStage In (''Ambulatory'',''A'') 
+Then 2 When a.WABStage In (''Bedridden'',''B'') Then 3    
+End As WABStage, a.VisitDate WABDate
+, Case      When DateDiff(dd, m.registrationDate, a.VisitDate) <= 90 Then 1 Else 0    
+End As enrollmentTest, Case      When DateDiff(dd, c.startARTDate, a.VisitDate) 
+Between -90 And 14 Then 1      Else 0 End As baselineTest  
+From TMP_ClinicalEncounters a 
+Inner Join    tmp_patientmaster m On a.PatientPK = m.PatientPK 
+Left Join    tmp_ARTPatients c On a.PatientPK = c.PatientPK  
+Where a.WABStage Is Not Null)
+
+Select e.PatientPK,e.FacilityID, Max(e.WABStage) bWAB, e2.wabDate bWABDate
+From IQC_allWAB e Inner Join
+  (Select IQC_allWAB.PatientPK, Min(IQC_allWAB.WABDate) wabDate
+    From IQC_allWAB
+    Where IQC_allWAB.baselineTest = 1
+    Group By IQC_allWAB.PatientPK) e2 On e.PatientPK = e2.PatientPK And
+    e.WABDate = e2.wabDate
+Group By e.PatientPK,e.FacilityID, e2.wabDate
+' 
+
+IF NOT EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[IQC_eWAB]'))
+EXEC dbo.sp_executesql @statement = N'
+CREATE view [dbo].[IQC_eWAB] as 
+WITH IQC_allWAB AS
+(Select Distinct a.PatientPK, m.FacilityID
+, Case When a.WABStage In (''Working'',''W'') Then 1      
+When a.WABStage In (''Ambulatory'',''A'') 
+Then 2 When a.WABStage In (''Bedridden'',''B'') Then 3    
+End As WABStage, a.VisitDate WABDate
+, Case      When DateDiff(dd, m.registrationDate, a.VisitDate) <= 90 Then 1 Else 0    
+End As enrollmentTest, Case      When DateDiff(dd, c.startARTDate, a.VisitDate) 
+Between -90 And 14 Then 1      Else 0 End As baselineTest  
+From TMP_ClinicalEncounters a 
+Inner Join    tmp_patientmaster m On a.PatientPK = m.PatientPK 
+Left Join    tmp_ARTPatients c On a.PatientPK = c.PatientPK  
+Where a.WABStage Is Not Null)
+
+Select e.PatientPK,e.FacilityID, Max(e.WABStage) eWAB, e2.wabDate eWABDate
+From IQC_allWAB e Inner Join
+  (Select IQC_allWAB.PatientPK, Min(IQC_allWAB.WABDate) wabDate
+    From IQC_allWAB
+    Where IQC_allWAB.enrollmentTest = 1
+    Group By IQC_allWAB.PatientPK) e2 On e.PatientPK = e2.PatientPK And
+    e.WABDate = e2.wabDate
+Group By e.PatientPK,e.FacilityID, e2.wabDate
+' 
+
+IF NOT EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[IQC_lastWAB]'))
+EXEC dbo.sp_executesql @statement = N'
+CREATE view [dbo].[IQC_lastWAB] as 
+WITH IQC_allWAB AS
+(Select Distinct a.PatientPK, m.FacilityID
+, Case When a.WABStage In (''Working'',''W'') Then 1      
+When a.WABStage In (''Ambulatory'',''A'') 
+Then 2 When a.WABStage In (''Bedridden'',''B'') Then 3    
+End As WABStage, a.VisitDate WABDate
+, Case      When DateDiff(dd, m.registrationDate, a.VisitDate) <= 90 Then 1 Else 0    
+End As enrollmentTest, Case      When DateDiff(dd, c.startARTDate, a.VisitDate) 
+Between -90 And 14 Then 1      Else 0 End As baselineTest  
+From TMP_ClinicalEncounters a 
+Inner Join    tmp_patientmaster m On a.PatientPK = m.PatientPK 
+Left Join    tmp_ARTPatients c On a.PatientPK = c.PatientPK  
+Where a.WABStage Is Not Null)
+
+Select e.PatientPK,e.FacilityID, Max(e.WABStage) lastWAB, e2.wabDate lastWABDate
+From IQC_allWAB e Inner Join
+  (Select IQC_allWAB.PatientPK, Max(IQC_allWAB.WABDate) wabDate
+    From IQC_allWAB
+   
+    Group By IQC_allWAB.PatientPK) e2 On e.PatientPK = e2.PatientPK And
+    e.WABDate = e2.wabDate
+Group By e.PatientPK,e.FacilityID, e2.wabDate
+' 
+
 END
 
 GO

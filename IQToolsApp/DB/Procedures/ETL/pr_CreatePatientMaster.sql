@@ -42,7 +42,37 @@ BEGIN
 	, PreviousARTStartDate DATE NULL
 	, SMSConsented VARCHAR(10) NULL
 	, ServiceArea varchar(100) NULL
-	, NextAppointmentDate datetime NULL);
+	, NextAppointmentDate datetime NULL
+	, HTSID varchar (50) null
+	, PatientType varchar (200) null
+	, PopulationCategory nvarchar(max) null
+	, KeyPopulationType nvarchar(max) null
+	, Orphan varchar (3) null
+	, InSchool varchar (3) null
+	, PREPNumber varchar (50) null
+	, [ANC Number] varchar (50) null
+	, [Maternity Number] varchar (50) null
+	, [PNC Number] varchar (50) null
+	, RegistrationAtDCClinic int null
+	, RegistrationAtPEP int null
+	, Region varchar(50) null
+	, District varchar (50) null
+	, County nvarchar (255) null
+	, SubCounty nvarchar (255) null
+	, [Location] int null
+	, Sublocation nvarchar (50) null
+	, Ward nvarchar (255) null
+	, NearestHealthCentre varchar (300) null
+	, Landmark varchar (250) null
+	, NationalId varchar (100) null
+	, DateConfirmedHIVPositive datetime null
+	, StatusAtCCC varchar (50) null
+	, StatusAtPMTCT varchar (50) null
+	, StatusAtTBClinic varchar (50) null
+	, StatusAtDCClinic int null
+	, StatusAtPEP int null
+	, ARTTransferInDate datetime null
+	);
 
 	IF EXISTS(SELECT name FROM sys.tables WHERE name = N'x_SMSConsent')
 	DROP TABLE x_SMSConsent;
@@ -157,7 +187,7 @@ BEGIN
 		, regPMTCT.RegistrationAtPMTCT
 		, regTB.RegistrationAtTBClinic
 
-		, m.dFirstName + '''' '''' + m.dMiddleName + '''' '''' + m.dLastName PatientName 
+		, m.dFirstName + '''' '''' + isnull(m.dMiddleName,'''''''') + '''' '''' + m.dLastName PatientName 
 		, Case When d.TransferIn = 1 OR 
 		(t.ARTTransferInDate > CAST('''''''' as datetime) 
 		AND t.ARTTransferInDate <= regCCC.RegistrationAtCCC) 
@@ -181,7 +211,35 @@ BEGIN
 		, CASE WHEN aa.PatientPK IS NOT NULL THEN ''''YES'''' ELSE NULL END AS SMSConsented
 		, (select top 1 x.ModuleName from mst_module x where x.moduleid=d.ModuleId) as ServiceArea	
 		, (select top 1 x.appdate from dtl_PatientAppointment x where x.Ptn_pk=m.ptn_pk order by x.appdate desc) as NextAppointmentDate
-
+		, null as HTSID
+		, null as PatientType
+		, null as PopulationCategory
+		, null as KeyPopulationType
+		, null as Orphan
+		, null as InSchool
+		, null as PREPNumber
+		, null as ANCNumber
+		, null as MaternityNumber
+		, null as PNCNumber
+		, null as RegistrationATDCCClinic
+		, null as RegistrationAtPEP
+		, null as Region
+		, null as District
+		, null as County
+		, null as SubCounty
+		, null as Location
+		, null as SubLocation
+		, null as Ward
+		, null as NearestHealthCentre
+		, null as Landmark
+		, null as NationalID
+		, null as DateConfirmedHIVPositive
+		, null as StatusAtCCC
+		, null as StatusAtPMTCT
+		, null as StatusAtDCCClinic
+		, null as StatusAtPEP
+		, null as StatusAtTBClinic	
+		, null as ARTTransferInDate
 		from (Select b.FacilityName 
 					From mst_patient a inner join mst_facility b on a.LocationID = b.facilityid
 					Where a.DeleteFlag = 0
@@ -228,6 +286,7 @@ BEGIN
 		where b.VisitName Not In (''''Scheduler''''
 								,''''ART History''''
 								, ''''ART Therapy''''
+								, ''''Contact Tracking Form Revised''''
 								,''''Contact Tracking Form'''')
 		AND b.VisitName NOT LIKE ''''%Enrollment%''''
 		And (a.DeleteFlag = 0 Or a.DeleteFlag Is Null)

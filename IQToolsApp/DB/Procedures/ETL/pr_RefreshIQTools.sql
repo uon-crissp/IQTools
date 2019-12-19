@@ -17,6 +17,7 @@ BEGIN
 		EXEC pr_CreatePharmacyMaster 
 		EXEC pr_CreateClinicalEncountersMaster
 		EXEC pr_CreateLastStatusMaster
+		EXEC pr_CreateIPTMaster
 		EXEC pr_CreateARTPatientsMaster
 		EXEC pr_CreateLabMaster
 		EXEC pr_CreatePregnanciesMaster
@@ -29,7 +30,6 @@ BEGIN
 		EXEC pr_CreateHHATables
 		EXEC pr_CreateKeyPopMaster
 		EXEC pr_CreatePwPServicesMaster
-		EXEC pr_CreateIPTMaster
 	END
 END
 GO

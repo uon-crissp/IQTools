@@ -202,7 +202,8 @@ namespace DataLayer
             string ConnectionString = String.Empty;
             if (Registry.GetValue(versionIndependent, "ConnectionString", null) != null)
             {
-                return ClsUtility.Decrypt(Registry.GetValue(versionIndependent, "ConnectionString", null).ToString());
+                ConnectionString = ClsUtility.Decrypt(Registry.GetValue(versionIndependent, "ConnectionString", null).ToString());
+                return ConnectionString;
             }
             else
             {

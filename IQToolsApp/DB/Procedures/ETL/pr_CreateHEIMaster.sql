@@ -25,7 +25,8 @@ BEGIN
 	, MAX(i.OutCome) HEIOutcome
 	, MAX(i.OutcomeDate) OutcomeDate
 	, MAX(CASE WHEN j.PatientPK IS NULL THEN ''No'' ELSE ''Yes'' END) AS MotherOnARVs
-	
+	, null as Reasons
+
 	INTO tmp_HEI
 
 	From tmp_PatientMaster a 
@@ -80,7 +81,8 @@ BEGIN
 		[MotherID] [varchar](43)  NULL,
 		[HEIOutcome] [varchar](250)  NULL,
 		[OutcomeDate] [datetime] NULL,
-		[MotherOnARVs] [varchar](10) null 
+		[MotherOnARVs] [varchar](10) null,
+		Reasons varchar(200) null
 	) ON [PRIMARY]
 
 	EXEC('

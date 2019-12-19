@@ -712,7 +712,6 @@ namespace IQTools.Pages
                 SetControlPropertyThreadSafe(fMain.picProgress, "Image", null);
                 SetControlPropertyThreadSafe(fMain.lblNotify, "Text", "Successfully Exported");
             }
-
         }
     }
 }

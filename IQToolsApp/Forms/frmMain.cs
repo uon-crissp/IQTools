@@ -23,6 +23,7 @@ namespace IQTools
         string serverType = Entity.GetServerType();
         string emrType = Entity.GetEMRType();
         string iqtoolsConnString = Entity.GetConnString();
+        DataTable dt = new DataTable();
 
         Entity theObject = new Entity();
         DataTable theDt = new DataTable();
@@ -52,7 +53,7 @@ namespace IQTools
             OptMA.CheckedChanged += new EventHandler(homeScreenOption_Changed);
             optAllApp.CheckedChanged += new EventHandler(homeScreenOption_Changed);
             optNoARTNoCD4.CheckedChanged += new EventHandler(homeScreenOption_Changed);
-            optNoARTCD4XY.CheckedChanged += new EventHandler(homeScreenOption_Changed);
+            //optNoARTCD4XY.CheckedChanged += new EventHandler(homeScreenOption_Changed);
 
             //if (emrType != "iqcare")  //  this tab page should only appear when the connected EMR is IQCare
             //{
@@ -71,6 +72,8 @@ namespace IQTools
         {
             try
             {
+                cboQuery.SelectedIndex = 0;
+
                 loadQueries();
                 clsGbl.IQToolsVersion = Application.ProductVersion;
                 //txtVersion.Text = Application.ProductVersion;
@@ -498,8 +501,8 @@ namespace IQTools
             ClsUtility.AddParameters("@todate", SqlDbType.VarChar, dtpMAP.Value.ToString("s"));
             ClsUtility.AddParameters("@numdays", SqlDbType.VarChar, TxtMA.Text.Trim());
             ClsUtility.AddParameters("@appdate", SqlDbType.VarChar, dtpAllApp.Value.ToString("s"));
-            ClsUtility.AddParameters("@lowCD4", SqlDbType.VarChar, txtLCD4.Text.Trim());
-            ClsUtility.AddParameters("@highCD4", SqlDbType.VarChar, txtHCD4.Text.Trim());
+            //ClsUtility.AddParameters("@lowCD4", SqlDbType.VarChar, txtLCD4.Text.Trim());
+            //ClsUtility.AddParameters("@highCD4", SqlDbType.VarChar, txtHCD4.Text.Trim());
             ClsUtility.AddParameters("@lowVL", SqlDbType.VarChar, txtLowVL.Text.Trim());
             if (dgvAdherence.DataSource != null && cmdART.Text == Assets.Messages.ExportToExcel)
             {
@@ -938,7 +941,219 @@ namespace IQTools
         {
             runRemoteServices();
         }
-        
-      
+
+        private void cmdLoadReport_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            string sReportName = cboQuery.Text;
+            string sSQLQuery = "";
+
+
+            if (cboQuery.SelectedIndex == 1)
+            {
+                sSQLQuery = "exec pr_Reports_NewOnART '" + dtpFrom.Text + "', '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 2)
+            {
+                sSQLQuery = "exec pr_Reports_CurrentOnART '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 3)
+            {
+                sSQLQuery = "exec pr_Reports_ValidVL '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 4)
+            {
+                sSQLQuery = "exec pr_Reports_Suppressed '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 5)
+            {
+                sSQLQuery = "exec pr_Reports_MissedAppointments '" + dtpFrom.Text + "', '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 6)
+            {
+                sSQLQuery = "exec pr_Reports_12MonthCohort '" + dtpFrom.Text + "', '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 7)
+            {
+                sSQLQuery = "exec pr_Reports_12MonthCohort_Linelist '" + dtpFrom.Text + "', '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 8)
+            {
+                sSQLQuery = "exec pr_Reports_RecentLost_Linelist";
+            }
+            else if (cboQuery.SelectedIndex == 9)
+            {
+                sSQLQuery = "exec pr_Reports_PatientClassification";
+            }
+            else if (cboQuery.SelectedIndex == 10)
+            {
+                sSQLQuery = "exec pr_Reports_PatientClassification_LineList";
+            }
+            else if (cboQuery.SelectedIndex == 11)
+            {
+                sSQLQuery = "exec pr_Reports_FMAPS '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 12)
+            {
+                sSQLQuery = "exec pr_Reports_HEIRegister '" + dtpFrom.Text + "', '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 13)
+            {
+                sSQLQuery = "exec pr_Reports_PresumptiveTBRegister '" + dtpFrom.Text + "', '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 14)
+            {
+                sSQLQuery = "exec pr_Reports_HighVLRegister '" + dtpFrom.Text + "', '" + dtpTo.Text + "'";
+            }
+            else if (cboQuery.SelectedIndex == 15)
+            {
+                sSQLQuery = "exec pr_Reports_NoFutureAppointment";
+            }
+            else if (cboQuery.SelectedIndex == 16)
+            {
+                sSQLQuery = "exec pr_Reports_PendingAppointments '" + dtpFrom.Text + "', '" + dtpTo.Text + "'";
+            }
+            
+            try
+            {
+                dgvQryData.DataSource = null;
+                dt = LoadReportData(sSQLQuery);
+                dgvQryData.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                dt = null;
+                MessageBox.Show("The following error occured: " + ex.Message);
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+
+        public DataTable LoadReportData(string sSQLQuery)
+        {
+            SqlConnection con = new SqlConnection(Entity.GetConnString());
+
+            con.Open();
+
+            SqlCommand command = new SqlCommand(sSQLQuery, con);
+            command.CommandType = CommandType.Text;
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            adapter.SelectCommand = command;
+            adapter.Fill(ds);
+            con.Close();
+
+            return ds.Tables[0];
+        }
+
+        private void cmdExportToExcel_Click(object sender, EventArgs e)
+        {
+            exportDataToExcel(dt);
+        }
+
+        private void cboQuery_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dgvQryData.DataSource = null;
+
+            if (cboQuery.SelectedIndex == 1)
+            {
+                lblFrom.Visible = true;
+                dtpFrom.Visible = true;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 2)
+            {
+                lblFrom.Visible = false;
+                dtpFrom.Visible = false;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 3)
+            {
+                lblFrom.Visible = false;
+                dtpFrom.Visible = false;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 4)
+            {
+                lblFrom.Visible = false;
+                dtpFrom.Visible = false;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 5)
+            {
+                lblFrom.Visible = true;
+                dtpFrom.Visible = true;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 6)
+            {
+                lblFrom.Visible = true;
+                dtpFrom.Visible = true;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 7)
+            {
+                lblFrom.Visible = true;
+                dtpFrom.Visible = true;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 8)
+            {
+                lblFrom.Visible = false;
+                dtpFrom.Visible = false;
+                lblTo.Visible = false;
+                dtpTo.Visible = false;
+            }
+            else if (cboQuery.SelectedIndex == 9)
+            {
+                lblFrom.Visible = false;
+                dtpFrom.Visible = false;
+                lblTo.Visible = false;
+                dtpTo.Visible = false;
+            }
+            else if (cboQuery.SelectedIndex == 10)
+            {
+                lblFrom.Visible = false;
+                dtpFrom.Visible = false;
+                lblTo.Visible = false;
+                dtpTo.Visible = false;
+            }
+            else if (cboQuery.SelectedIndex == 11)
+            {
+                lblFrom.Visible = false;
+                dtpFrom.Visible = false;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 12)
+            {
+                lblFrom.Visible = true;
+                dtpFrom.Visible = true;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 13)
+            {
+                lblFrom.Visible = true;
+                dtpFrom.Visible = true;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+            else if (cboQuery.SelectedIndex == 14)
+            {
+                lblFrom.Visible = true;
+                dtpFrom.Visible = true;
+                lblTo.Visible = true;
+                dtpTo.Visible = true;
+            }
+        }
     }
 }

@@ -773,7 +773,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:IQTools"
         "ProductCode" = "8:{AFAE3163-C6E6-46BB-97FB-0B42DA6D272A}"
-        "PackageCode" = "8:{8D753FE2-38E8-4CA4-970D-D4B8D03F7103}"
+        "PackageCode" = "8:{4152152B-F978-47E8-812E-541E2000E76A}"
         "UpgradeCode" = "8:{E7F30613-F5A0-4668-B465-2EE360C858FE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

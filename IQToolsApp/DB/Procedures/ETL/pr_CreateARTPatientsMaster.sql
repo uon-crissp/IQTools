@@ -65,9 +65,10 @@ BEGIN
 		  m.SatelliteName,
 		  m.DOB,
 		  m.AgeEnrollment,
-		  Cast((DateDiff(day, m.DOB, c.startARTDate) / 365.25) As decimal(5,1))
-		  AgeARTStart,
+		  Cast((DateDiff(day, m.DOB, c.startARTDate) / 365.25) As decimal(5,1)) AgeARTStart,
 		  m.AgeLastVisit,
+		  m.AgeCurrent,
+		  m.HIVTestDate,
 		  Coalesce(m.RegistrationAtCCC, m.RegistrationAtPMTCT) RegistrationDate,
 		  m.PatientSource,
 		  m.Gender,
@@ -101,7 +102,19 @@ BEGIN
 				and datediff(dd, dbo.fn_GetNextVisitDate(getdate(), m.PatientPK), getdate()) > 0 then datediff(dd, dbo.fn_GetNextVisitDate(getdate(), m.PatientPK), getdate()) 
 			when [dbo].[fn_ActiveCCC](getdate(), m.PatientPK)=0 and e.CDCExitReason is null
 				and datediff(dd, dbo.fn_GetNextVisitDate(getdate(), m.PatientPK), getdate()) > 0 then datediff(dd, dbo.fn_GetNextVisitDate(getdate(), m.PatientPK), getdate()) 
-			end as DaysMissed
+			end as DaysMissed,
+
+        (select top 1 y.Name from ord_Visit x inner join mst_Decode y on x.PatientClassification =y.ID
+			where x.ptn_pk=m.patientpk order by x.visitdate desc) as PatientClassification,
+		(select top 1 case when x.IsEnrolDifferenciatedCare=1 then ''Yes'' when x.IsEnrolDifferenciatedCare=0 then ''No'' end as dcm
+			from ord_Visit x where x.ptn_pk=m.patientpk order by x.visitdate desc) as EnrolledonDifferentiatedCare,
+
+		IPTStartDate, LastIPTDispense, IPTOutcome, DateOfOutcome as IPTDateOfOutcome
+		, null as PatientType
+		, null as PopulationCategory
+		, null as Address
+		, null as KeyPopulationType
+		, null as PhoneNumber
 
 		INTO tmp_ARTPatients
   
@@ -110,8 +123,11 @@ BEGIN
 		  Inner Join temp_art_b d On m.PatientPK = d.PatientPK
 		  inner join temp_art_c f On m.PatientPK = f.PatientPK
 		  Left Join tmp_lastStatus e On m.PatientPK = e.PatientPK
+		  left join tmp_IPT g on m.patientpk = g.patientpk
 		  ')
 	
+	exec('update tmp_ARTPatients set currentstatus=''Active'' where isnull(daysmissed,0) < 31 and currentstatus=''Lost - Not care-ended''')
+
 	EXEC('CREATE CLUSTERED INDEX [IDX_PatientPK] ON 
 		[dbo].[tmp_ARTPatients] ([PatientPK] ASC )
 		WITH (PAD_INDEX  = OFF
@@ -123,5 +139,12 @@ BEGIN
 		, ALLOW_ROW_LOCKS  = ON
 		, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 		 ')
+
+	EXEC('IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''temp_art_a'') AND type in (N''U''))
+		DROP TABLE temp_art_a')
+	EXEC('IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''temp_art_b'') AND type in (N''U''))
+		DROP TABLE temp_art_b')
+	EXEC('IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''temp_art_c'') AND type in (N''U''))
+		DROP TABLE temp_art_c')
 END
 GO

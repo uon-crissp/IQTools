@@ -68,14 +68,16 @@ BEGIN
 	SET @AgeGroup =
 		CASE
 		WHEN @Age Between 0.0 And 0.9 Then ''<1''
-		WHEN @Age Between 1.0 And 9.9 Then ''1-9''
+		WHEN @Age Between 1.0 And 4.9 Then ''01-04''
+		WHEN @Age Between 5.0 And 9.9 Then ''05-09''
 		WHEN @Age Between 10.0 And 14.9 Then ''10-14''
 		WHEN @Age Between 15.0 And 19.9 Then ''15-19''
 		WHEN @Age Between 20.0 And 24.9 Then ''20-24''
 		WHEN @Age Between 25.0 And 29.9 Then ''25-29''
 		WHEN @Age Between 30.0 And 34.9 Then ''30-34''
 		WHEN @Age Between 35.0 And 39.9 Then ''35-39''
-		WHEN @Age Between 40.0 And 49.9 Then ''40-49''
+		WHEN @Age Between 40.0 And 44.9 Then ''40-44''
+		WHEN @Age Between 45.0 And 49.9 Then ''45-49''
 		WHEN @Age >=50.0 Then ''50+''
 		END
 END

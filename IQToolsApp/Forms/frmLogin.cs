@@ -105,6 +105,7 @@ namespace IQTools
                 {
                     MessageBox.Show(Assets.Messages.MissingCredentials, Assets.Messages.InfoHeader
                         , MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
             }
         }
@@ -162,6 +163,7 @@ namespace IQTools
                             return false;
                         }
                     }
+
                     if (dr.Table.Rows.Count >= 1)
                     {
                         clsGbl.loggedInUser.UserID = Convert.ToInt16(dr["userID"]);

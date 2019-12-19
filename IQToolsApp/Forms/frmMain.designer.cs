@@ -49,6 +49,7 @@ namespace IQTools
             this.tpQueries = new System.Windows.Forms.TabPage();
             this.tpReports = new System.Windows.Forms.TabPage();
             this.spcHome = new System.Windows.Forms.SplitContainer();
+            this.lblLTFUApplicable = new System.Windows.Forms.Label();
             this.piclogo = new System.Windows.Forms.PictureBox();
             this.picHome = new System.Windows.Forms.PictureBox();
             this.spcHomeTab1 = new System.Windows.Forms.SplitContainer();
@@ -62,12 +63,7 @@ namespace IQTools
             this.lblMA = new System.Windows.Forms.Label();
             this.OptMA = new System.Windows.Forms.RadioButton();
             this.optART = new System.Windows.Forms.RadioButton();
-            this.txtHCD4 = new System.Windows.Forms.TextBox();
-            this.txtLCD4 = new System.Windows.Forms.TextBox();
-            this.label85 = new System.Windows.Forms.Label();
-            this.label67 = new System.Windows.Forms.Label();
             this.optNoARTNoCD4 = new System.Windows.Forms.RadioButton();
-            this.optNoARTCD4XY = new System.Windows.Forms.RadioButton();
             this.dtpAllApp = new System.Windows.Forms.DateTimePicker();
             this.optAllApp = new System.Windows.Forms.RadioButton();
             this.label84 = new System.Windows.Forms.Label();
@@ -76,6 +72,20 @@ namespace IQTools
             this.cmdART = new System.Windows.Forms.Button();
             this.dgvAdherence = new System.Windows.Forms.DataGridView();
             this.tcMain = new System.Windows.Forms.TabControl();
+            this.tpStandardQueries = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cboQuery = new System.Windows.Forms.ComboBox();
+            this.lblFrom = new System.Windows.Forms.Label();
+            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
+            this.lblTo = new System.Windows.Forms.Label();
+            this.dtpTo = new System.Windows.Forms.DateTimePicker();
+            this.cmdLoadReport = new System.Windows.Forms.Button();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.cmdExportToExcel = new System.Windows.Forms.Button();
+            this.dgvQryData = new System.Windows.Forms.DataGridView();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.tpNewReports = new System.Windows.Forms.TabPage();
             this.tpEMRAccess = new System.Windows.Forms.TabPage();
             this.tpForum = new System.Windows.Forms.TabPage();
@@ -87,7 +97,6 @@ namespace IQTools
             this.lblNotify = new System.Windows.Forms.Label();
             this.picProgress = new System.Windows.Forms.PictureBox();
             this.pictureBox31 = new System.Windows.Forms.PictureBox();
-            this.lblLTFUApplicable = new System.Windows.Forms.Label();
             this.tpHelp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spcHelp)).BeginInit();
             this.spcHelp.Panel1.SuspendLayout();
@@ -115,6 +124,12 @@ namespace IQTools
             this.gbART.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAdherence)).BeginInit();
             this.tcMain.SuspendLayout();
+            this.tpStandardQueries.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvQryData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spcMain)).BeginInit();
             this.spcMain.Panel1.SuspendLayout();
             this.spcMain.Panel2.SuspendLayout();
@@ -323,7 +338,7 @@ namespace IQTools
             this.tpQueries.Name = "tpQueries";
             this.tpQueries.Size = new System.Drawing.Size(1256, 620);
             this.tpQueries.TabIndex = 4;
-            this.tpQueries.Text = "Queries";
+            this.tpQueries.Text = "Query Builder";
             this.tpQueries.UseVisualStyleBackColor = true;
             // 
             // tpReports
@@ -362,6 +377,17 @@ namespace IQTools
             this.spcHome.SplitterDistance = 60;
             this.spcHome.SplitterWidth = 1;
             this.spcHome.TabIndex = 7;
+            // 
+            // lblLTFUApplicable
+            // 
+            this.lblLTFUApplicable.AutoSize = true;
+            this.lblLTFUApplicable.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLTFUApplicable.ForeColor = System.Drawing.Color.Red;
+            this.lblLTFUApplicable.Location = new System.Drawing.Point(325, 32);
+            this.lblLTFUApplicable.Name = "lblLTFUApplicable";
+            this.lblLTFUApplicable.Size = new System.Drawing.Size(45, 17);
+            this.lblLTFUApplicable.TabIndex = 3;
+            this.lblLTFUApplicable.Text = "label1";
             // 
             // piclogo
             // 
@@ -437,12 +463,7 @@ namespace IQTools
             this.gbART.Controls.Add(this.lblMA);
             this.gbART.Controls.Add(this.OptMA);
             this.gbART.Controls.Add(this.optART);
-            this.gbART.Controls.Add(this.txtHCD4);
-            this.gbART.Controls.Add(this.txtLCD4);
-            this.gbART.Controls.Add(this.label85);
-            this.gbART.Controls.Add(this.label67);
             this.gbART.Controls.Add(this.optNoARTNoCD4);
-            this.gbART.Controls.Add(this.optNoARTCD4XY);
             this.gbART.Controls.Add(this.dtpAllApp);
             this.gbART.Controls.Add(this.optAllApp);
             this.gbART.Controls.Add(this.label84);
@@ -465,7 +486,7 @@ namespace IQTools
             this.lblLowVL.AutoSize = true;
             this.lblLowVL.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLowVL.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lblLowVL.Location = new System.Drawing.Point(69, 401);
+            this.lblLowVL.Location = new System.Drawing.Point(69, 326);
             this.lblLowVL.Name = "lblLowVL";
             this.lblLowVL.Size = new System.Drawing.Size(43, 13);
             this.lblLowVL.TabIndex = 23;
@@ -475,7 +496,7 @@ namespace IQTools
             // 
             this.txtLowVL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtLowVL.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLowVL.Location = new System.Drawing.Point(119, 398);
+            this.txtLowVL.Location = new System.Drawing.Point(119, 323);
             this.txtLowVL.Name = "txtLowVL";
             this.txtLowVL.Size = new System.Drawing.Size(79, 23);
             this.txtLowVL.TabIndex = 22;
@@ -485,7 +506,7 @@ namespace IQTools
             // 
             this.optVLDetect.AutoSize = true;
             this.optVLDetect.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.optVLDetect.Location = new System.Drawing.Point(7, 375);
+            this.optVLDetect.Location = new System.Drawing.Point(7, 300);
             this.optVLDetect.Name = "optVLDetect";
             this.optVLDetect.Size = new System.Drawing.Size(168, 17);
             this.optVLDetect.TabIndex = 21;
@@ -497,9 +518,9 @@ namespace IQTools
             // 
             this.optVL.AutoSize = true;
             this.optVL.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.optVL.Location = new System.Drawing.Point(7, 341);
+            this.optVL.Location = new System.Drawing.Point(7, 266);
             this.optVL.Name = "optVL";
-            this.optVL.Size = new System.Drawing.Size(151, 17);
+            this.optVL.Size = new System.Drawing.Size(152, 17);
             this.optVL.TabIndex = 20;
             this.optVL.TabStop = true;
             this.optVL.Text = "Due For a Viral Load Test";
@@ -550,48 +571,6 @@ namespace IQTools
             this.optART.Text = "All Patients ";
             this.optART.UseVisualStyleBackColor = true;
             // 
-            // txtHCD4
-            // 
-            this.txtHCD4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHCD4.Location = new System.Drawing.Point(119, 307);
-            this.txtHCD4.Name = "txtHCD4";
-            this.txtHCD4.Size = new System.Drawing.Size(79, 23);
-            this.txtHCD4.TabIndex = 13;
-            this.txtHCD4.Text = "500";
-            // 
-            // txtLCD4
-            // 
-            this.txtLCD4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLCD4.Location = new System.Drawing.Point(119, 280);
-            this.txtLCD4.Name = "txtLCD4";
-            this.txtLCD4.Size = new System.Drawing.Size(79, 23);
-            this.txtLCD4.TabIndex = 12;
-            this.txtLCD4.Text = "0";
-            // 
-            // label85
-            // 
-            this.label85.AutoSize = true;
-            this.label85.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label85.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label85.Location = new System.Drawing.Point(60, 311);
-            this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(56, 13);
-            this.label85.TabIndex = 11;
-            this.label85.Text = "High CD4:";
-            this.label85.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label67
-            // 
-            this.label67.AutoSize = true;
-            this.label67.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label67.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label67.Location = new System.Drawing.Point(60, 284);
-            this.label67.Name = "label67";
-            this.label67.Size = new System.Drawing.Size(52, 13);
-            this.label67.TabIndex = 10;
-            this.label67.Text = "Low CD4:";
-            this.label67.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // optNoARTNoCD4
             // 
             this.optNoARTNoCD4.AutoSize = true;
@@ -599,22 +578,10 @@ namespace IQTools
             this.optNoARTNoCD4.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.optNoARTNoCD4.Location = new System.Drawing.Point(6, 225);
             this.optNoARTNoCD4.Name = "optNoARTNoCD4";
-            this.optNoARTNoCD4.Size = new System.Drawing.Size(177, 17);
+            this.optNoARTNoCD4.Size = new System.Drawing.Size(178, 17);
             this.optNoARTNoCD4.TabIndex = 9;
             this.optNoARTNoCD4.Text = "Not on ART and no CD4 done";
             this.optNoARTNoCD4.UseVisualStyleBackColor = true;
-            // 
-            // optNoARTCD4XY
-            // 
-            this.optNoARTCD4XY.AutoSize = true;
-            this.optNoARTCD4XY.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.optNoARTCD4XY.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.optNoARTCD4XY.Location = new System.Drawing.Point(7, 257);
-            this.optNoARTCD4XY.Name = "optNoARTCD4XY";
-            this.optNoARTCD4XY.Size = new System.Drawing.Size(178, 17);
-            this.optNoARTCD4XY.TabIndex = 8;
-            this.optNoARTCD4XY.Text = "Not on ART and CD4 between";
-            this.optNoARTCD4XY.UseVisualStyleBackColor = true;
             // 
             // dtpAllApp
             // 
@@ -715,10 +682,11 @@ namespace IQTools
             // tcMain
             // 
             this.tcMain.Controls.Add(this.tpReports);
-            this.tcMain.Controls.Add(this.tpQueries);
+            this.tcMain.Controls.Add(this.tpStandardQueries);
             this.tcMain.Controls.Add(this.tpNewReports);
-            this.tcMain.Controls.Add(this.tpEMRAccess);
+            this.tcMain.Controls.Add(this.tpQueries);
             this.tcMain.Controls.Add(this.tpSMS);
+            this.tcMain.Controls.Add(this.tpEMRAccess);
             this.tcMain.Controls.Add(this.tpHelp);
             this.tcMain.Controls.Add(this.tpForum);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -731,6 +699,190 @@ namespace IQTools
             this.tcMain.Size = new System.Drawing.Size(1264, 648);
             this.tcMain.TabIndex = 0;
             this.tcMain.Selected += new System.Windows.Forms.TabControlEventHandler(this.tcMain_Selected);
+            // 
+            // tpStandardQueries
+            // 
+            this.tpStandardQueries.Controls.Add(this.tableLayoutPanel1);
+            this.tpStandardQueries.Location = new System.Drawing.Point(4, 24);
+            this.tpStandardQueries.Name = "tpStandardQueries";
+            this.tpStandardQueries.Size = new System.Drawing.Size(1256, 620);
+            this.tpStandardQueries.TabIndex = 12;
+            this.tpStandardQueries.Text = "Standard Queries";
+            this.tpStandardQueries.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.dgvQryData, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox4, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1256, 620);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(244)))), ((int)(((byte)(255)))));
+            this.flowLayoutPanel1.Controls.Add(this.label1);
+            this.flowLayoutPanel1.Controls.Add(this.cboQuery);
+            this.flowLayoutPanel1.Controls.Add(this.lblFrom);
+            this.flowLayoutPanel1.Controls.Add(this.dtpFrom);
+            this.flowLayoutPanel1.Controls.Add(this.lblTo);
+            this.flowLayoutPanel1.Controls.Add(this.dtpTo);
+            this.flowLayoutPanel1.Controls.Add(this.cmdLoadReport);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 60);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1256, 30);
+            this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(76, 15);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Select Query:";
+            // 
+            // cboQuery
+            // 
+            this.cboQuery.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cboQuery.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboQuery.FormattingEnabled = true;
+            this.cboQuery.Items.AddRange(new object[] {
+            "<-- Select a Report -->",
+            "New Clients on ART",
+            "Current on ART",
+            "Clients with Valid Viral Load",
+            "Suppressed Clients",
+            "Missed Appointments",
+            "12 Months ART Cohort",
+            "12 Months ART Cohort Linelist",
+            "Recent Lost To Follow-up Clients",
+            "Client Classification - Well, Advanced Disease, Stable, Unstable",
+            "Client Classification Line List",
+            "FMAPS Pharmacy report",
+            "HEI Register",
+            "Presumptive TB Register",
+            "High Viral Load Register",
+            "Patients without next appointment",
+            "Pending appoinments"});
+            this.cboQuery.Location = new System.Drawing.Point(85, 4);
+            this.cboQuery.Name = "cboQuery";
+            this.cboQuery.Size = new System.Drawing.Size(456, 23);
+            this.cboQuery.TabIndex = 1;
+            this.cboQuery.SelectedIndexChanged += new System.EventHandler(this.cboQuery_SelectedIndexChanged);
+            // 
+            // lblFrom
+            // 
+            this.lblFrom.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblFrom.AutoSize = true;
+            this.lblFrom.Location = new System.Drawing.Point(547, 7);
+            this.lblFrom.Name = "lblFrom";
+            this.lblFrom.Size = new System.Drawing.Size(65, 15);
+            this.lblFrom.TabIndex = 3;
+            this.lblFrom.Text = "Date From:";
+            // 
+            // dtpFrom
+            // 
+            this.dtpFrom.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.dtpFrom.CustomFormat = "dd-MMM-yyyy";
+            this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpFrom.Location = new System.Drawing.Point(618, 3);
+            this.dtpFrom.Name = "dtpFrom";
+            this.dtpFrom.Size = new System.Drawing.Size(126, 23);
+            this.dtpFrom.TabIndex = 2;
+            // 
+            // lblTo
+            // 
+            this.lblTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblTo.AutoSize = true;
+            this.lblTo.Location = new System.Drawing.Point(750, 7);
+            this.lblTo.Name = "lblTo";
+            this.lblTo.Size = new System.Drawing.Size(49, 15);
+            this.lblTo.TabIndex = 4;
+            this.lblTo.Text = "Date To:";
+            // 
+            // dtpTo
+            // 
+            this.dtpTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.dtpTo.CustomFormat = "dd-MMM-yyyy";
+            this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpTo.Location = new System.Drawing.Point(805, 3);
+            this.dtpTo.Name = "dtpTo";
+            this.dtpTo.Size = new System.Drawing.Size(125, 23);
+            this.dtpTo.TabIndex = 5;
+            // 
+            // cmdLoadReport
+            // 
+            this.cmdLoadReport.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cmdLoadReport.Location = new System.Drawing.Point(936, 3);
+            this.cmdLoadReport.Name = "cmdLoadReport";
+            this.cmdLoadReport.Size = new System.Drawing.Size(75, 23);
+            this.cmdLoadReport.TabIndex = 6;
+            this.cmdLoadReport.Text = "Load";
+            this.cmdLoadReport.UseVisualStyleBackColor = true;
+            this.cmdLoadReport.Click += new System.EventHandler(this.cmdLoadReport_Click);
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.flowLayoutPanel2.Controls.Add(this.cmdExportToExcel);
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(674, 590);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(582, 30);
+            this.flowLayoutPanel2.TabIndex = 2;
+            // 
+            // cmdExportToExcel
+            // 
+            this.cmdExportToExcel.Location = new System.Drawing.Point(399, 3);
+            this.cmdExportToExcel.Name = "cmdExportToExcel";
+            this.cmdExportToExcel.Size = new System.Drawing.Size(180, 23);
+            this.cmdExportToExcel.TabIndex = 0;
+            this.cmdExportToExcel.Text = "Export to Excel";
+            this.cmdExportToExcel.UseVisualStyleBackColor = true;
+            this.cmdExportToExcel.Click += new System.EventHandler(this.cmdExportToExcel_Click);
+            // 
+            // dgvQryData
+            // 
+            this.dgvQryData.AllowUserToAddRows = false;
+            this.dgvQryData.AllowUserToDeleteRows = false;
+            this.dgvQryData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvQryData.BackgroundColor = System.Drawing.Color.White;
+            this.dgvQryData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvQryData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvQryData.Location = new System.Drawing.Point(3, 93);
+            this.dgvQryData.Name = "dgvQryData";
+            this.dgvQryData.ReadOnly = true;
+            this.dgvQryData.Size = new System.Drawing.Size(1250, 494);
+            this.dgvQryData.TabIndex = 3;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.ErrorImage = global::IQTools.Properties.Resources.iqtools;
+            this.pictureBox4.Image = global::IQTools.Properties.Resources.iqtools;
+            this.pictureBox4.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(228, 60);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 6;
+            this.pictureBox4.TabStop = false;
             // 
             // tpNewReports
             // 
@@ -846,17 +998,6 @@ namespace IQTools
             this.pictureBox31.TabIndex = 25;
             this.pictureBox31.TabStop = false;
             // 
-            // lblLTFUApplicable
-            // 
-            this.lblLTFUApplicable.AutoSize = true;
-            this.lblLTFUApplicable.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLTFUApplicable.ForeColor = System.Drawing.Color.Red;
-            this.lblLTFUApplicable.Location = new System.Drawing.Point(325, 32);
-            this.lblLTFUApplicable.Name = "lblLTFUApplicable";
-            this.lblLTFUApplicable.Size = new System.Drawing.Size(45, 17);
-            this.lblLTFUApplicable.TabIndex = 3;
-            this.lblLTFUApplicable.Text = "label1";
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -872,6 +1013,7 @@ namespace IQTools
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " IQTools ";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.tpHelp.ResumeLayout(false);
@@ -904,6 +1046,13 @@ namespace IQTools
             this.gbART.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAdherence)).EndInit();
             this.tcMain.ResumeLayout(false);
+            this.tpStandardQueries.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvQryData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.spcMain.Panel1.ResumeLayout(false);
             this.spcMain.Panel2.ResumeLayout(false);
             this.spcMain.Panel2.PerformLayout();
@@ -960,12 +1109,7 @@ namespace IQTools
         private Label lblMA;
         private RadioButton OptMA;
         private RadioButton optART;
-        private TextBox txtHCD4;
-        private TextBox txtLCD4;
-        private Label label85;
-        private Label label67;
         private RadioButton optNoARTNoCD4;
-        private RadioButton optNoARTCD4XY;
         private DateTimePicker dtpAllApp;
         private RadioButton optAllApp;
         private Label label84;
@@ -974,6 +1118,20 @@ namespace IQTools
         private Button cmdART;
         private DataGridView dgvAdherence;
         private Label lblLTFUApplicable;
+        private TabPage tpStandardQueries;
+        private TableLayoutPanel tableLayoutPanel1;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Label label1;
+        private ComboBox cboQuery;
+        private DateTimePicker dtpFrom;
+        private Label lblFrom;
+        private Label lblTo;
+        private DateTimePicker dtpTo;
+        private Button cmdLoadReport;
+        private FlowLayoutPanel flowLayoutPanel2;
+        private Button cmdExportToExcel;
+        private DataGridView dgvQryData;
+        private PictureBox pictureBox4;
     }
 }
 

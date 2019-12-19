@@ -38,7 +38,31 @@ CREATE TABLE tmp_ClinicalEncounters
 , ClinicianName VARCHAR(200) NULL
 , DataQuality INT NULL
 , CreateDate DATE NULL
-, UpdateDate DATE NULL);
+, UpdateDate DATE NULL
+, VisitScheduled int null
+, WABStage varchar (250) null
+, BP varchar (21) null
+, ClinicalAssessment varchar (100) null
+, TherapyChangeReason varchar (100) null
+, Comments varchar(max) null
+, CommentsCategory varchar (100) null
+, PwP varchar (100) null
+, FeedingOption varchar (250) null
+, Immunisation varchar (250) null
+, GestationAge int null
+, PMTCTMedication int null
+, NextAppointmentReason varchar(100) null
+, StabilityAssessment varchar(8) null
+, DateStabilityAssessed date null
+, ArtRefillModel varchar(37) null
+, DifferentiatedCare varchar(200) null
+, SubstitutionFirstlineRegimenDate date null
+, SubstitutionFirstlineRegimenReason varchar(250) null
+, SubstitutionSecondlineRegimenDate date null
+, SubstitutionSecondlineRegimenReason varchar(250) null
+, SecondlineRegimenChangeDate date null
+, SecondlineRegimenChangeReason varchar(250) null
+);
 
 --Create Table tmp_IsPregnant
 IF EXISTS(Select Name FROM sys.tables Where Name = N'tmp_IsPregnant')
@@ -493,7 +517,29 @@ a.ClinicianName,
 a.DataQuality,
 a.CreateDate,
 a.UpdateDate			
-		
+, null as VisitScheduled
+, null as WABStage
+, null as BP
+, null as ClinicalAssessment
+, null as TherapyChangeReason
+, null as Commments
+, null as CommentsCategory
+, null as PWP
+, null as FeedingOption
+, null as Immunisation
+, null as GestationAge
+, null as PMTCTMedication
+, null as NextAppointmentReason
+, null as StabilityAssessment
+, null as DateStabilityAssessed
+, null as ArtRefillmodel
+, null as DifferentiatedCare
+, null as SubstitutionFirstlineRegimenDate
+, null as SubstitutionFirstlineRegimenReason
+, null as SubstitutionSecondlineRegimenDate
+, null as SubstitutionSecondlineRegimenReason
+, null as SecondlineRegimenChangeDate
+, null as SecondlineRegimenChangeReason				
 				
 FROM tmp_OrdVisit a
 LEFT JOIN tmp_IsPregnant c ON a.Visit_Id = c.Visit_pk and a.Ptn_pk = c.Ptn_pk
