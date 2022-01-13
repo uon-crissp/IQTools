@@ -88,6 +88,11 @@ namespace IQTools
                     MessageBox.Show(ex.Message);                 
             }
         }
+
+        private void frmQryParameters_Load(object sender, EventArgs e)
+        {
+
+        }
        
 	}
 }

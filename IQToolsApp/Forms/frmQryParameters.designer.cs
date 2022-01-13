@@ -122,6 +122,7 @@ namespace IQTools
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Query Parameters";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.frmQryParameters_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             this.ResumeLayout(false);
 

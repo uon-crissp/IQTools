@@ -82,22 +82,31 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder">
+    <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder, Version=1.19.2.428, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalDlls\ActiveDatabaseSoftware.ActiveQueryBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="ActiveDatabaseSoftware.EventMetadataProvider">
+    <Reference Include="ActiveDatabaseSoftware.EventMetadataProvider, Version=1.19.2.428, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalDlls\ActiveDatabaseSoftware.EventMetadataProvider.dll</HintPath>
     </Reference>
-    <Reference Include="ActiveDatabaseSoftware.ExpressionEditor">
+    <Reference Include="ActiveDatabaseSoftware.ExpressionEditor, Version=1.19.2.428, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalDlls\ActiveDatabaseSoftware.ExpressionEditor.dll</HintPath>
     </Reference>
-    <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider">
+    <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider, Version=1.19.2.428, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalDlls\ActiveDatabaseSoftware.MSSQLMetadataProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.MySQLMetadataProvider, Version=1.17.1.369, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalDlls\ActiveDatabaseSoftware.MySQLMetadataProvider.dll</HintPath>
     </Reference>
     <Reference Include="GSMCommunication">
       <HintPath>..\ExternalDlls\GSMCommunication.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.9.11.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="PDUConverter, Version=1.21.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalDlls\PDUConverter.dll</HintPath>

@@ -9,6 +9,7 @@ using System.Reflection;
 using ActiveDatabaseSoftware.ActiveQueryBuilder;
 //using MySql.Data.MySqlClient;
 using System.Collections;
+using MySql.Data.MySqlClient;
 
 
 namespace IQTools.Pages
@@ -16,7 +17,7 @@ namespace IQTools.Pages
     public partial class ucQueries : UserControl
     {
         frmMain fMain;
-        string server = Entity.getServerType(clsGbl.xmlPath);
+        string server = "mysql";
         string iqtoolsConnString = Entity.getconnString(clsGbl.xmlPath);
         SelectedQuery sq = new SelectedQuery();
         QueryBuilder qb = new QueryBuilder();
@@ -115,14 +116,15 @@ namespace IQTools.Pages
             }
             else if (serverType.ToLower() == "mysql")
             {
-                //MySqlConnection mysqlConn = (MySqlConnection)Entity.GetConnection(iqtoolsConnString, "mysql");
-                //MySQLSyntaxProvider mysqlSyntaxProvider = new MySQLSyntaxProvider();
-                //MySQLMetadataProvider mysqlMetadataProvider = new MySQLMetadataProvider();
+                string connstring = string.Format("Server={0}; database={1}; UID={2}; password={3}", "localhost", "migration_tr", "root", "test");
+                MySqlConnection mysqlConn = new MySqlConnection(connstring);
+                MySQLSyntaxProvider mysqlSyntaxProvider = new MySQLSyntaxProvider();
+                MySQLMetadataProvider mysqlMetadataProvider = new MySQLMetadataProvider();
 
-                //mysqlMetadataProvider.Connection = mysqlConn;
-                //queryBuilder1.SyntaxProvider = mysqlSyntaxProvider;
-                //queryBuilder1.MetadataProvider = mysqlMetadataProvider;
-                //qb.SyntaxProvider = mysqlSyntaxProvider;
+                mysqlMetadataProvider.Connection = mysqlConn;
+                queryBuilder1.SyntaxProvider = mysqlSyntaxProvider;
+                queryBuilder1.MetadataProvider = mysqlMetadataProvider;
+                qb.SyntaxProvider = mysqlSyntaxProvider;
             }
             else if (serverType.ToLower() == "pgsql")
             {
@@ -281,38 +283,38 @@ namespace IQTools.Pages
             }
             else if (server == "mysql")
             {
-                //MySqlCommand cmd = new MySqlCommand(qb.SQL);
+                MySqlCommand cmd = new MySqlCommand(qb.SQL);
 
-                //if (qb.Parameters.Count > 0)
-                //{
-                //    Hashtable myParameters = new Hashtable(); int j = 0; myParameters.Clear();
-                //    for (int i = 0; i < qb.Parameters.Count; i++)
-                //    {
-                //        j = 0;
-                //        SqlParameter p = new SqlParameter();
-                //        p.ParameterName = qb.Parameters[i].FullName;
-                //        p.DbType = qb.Parameters[i].DataType;
-                //        foreach (DictionaryEntry de in myParameters)
-                //        {
-                //            if (de.Key.ToString().Trim().ToLower() == qb.Parameters[i].FullName.Trim().ToLower())
-                //            {
-                //                j = 1;
-                //                break;
-                //            }
-                //        }
-                //        if (j == 0)
-                //        {
-                //            cmd.Parameters.Add(p);
-                //            myParameters.Add(p.ParameterName, p.DbType);
-                //        }
-                //    }
+                if (qb.Parameters.Count > 0)
+                {
+                    Hashtable myParameters = new Hashtable(); int j = 0; myParameters.Clear();
+                    for (int i = 0; i < qb.Parameters.Count; i++)
+                    {
+                        j = 0;
+                        SqlParameter p = new SqlParameter();
+                        p.ParameterName = qb.Parameters[i].FullName;
+                        p.DbType = qb.Parameters[i].DataType;
+                        foreach (DictionaryEntry de in myParameters)
+                        {
+                            if (de.Key.ToString().Trim().ToLower() == qb.Parameters[i].FullName.Trim().ToLower())
+                            {
+                                j = 1;
+                                break;
+                            }
+                        }
+                        if (j == 0)
+                        {
+                            cmd.Parameters.Add(p);
+                            myParameters.Add(p.ParameterName, p.DbType);
+                        }
+                    }
 
-                //    using (frmQryParameters qpf = new frmQryParameters(qb.Parameters, cmd))
-                //    {
-                //        qpf.StartPosition = FormStartPosition.CenterScreen;
-                //        qpf.ShowDialog();
-                //    }
-                //}
+                    using (frmQryParameters qpf = new frmQryParameters(qb.Parameters, cmd))
+                    {
+                        qpf.StartPosition = FormStartPosition.CenterScreen;
+                        qpf.ShowDialog();
+                    }
+                }
             }
 
             else if (server == "pgsql")
